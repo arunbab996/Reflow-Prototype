@@ -40,7 +40,7 @@
                 </nav>
             </div>
             <div class="user-profile-section">
-                <img src="https://i.pravatar.cc/150?u=james" alt="User" class="user-avatar">
+                <img src="https://i.pravatar.cc/150?img=3" alt="User" class="user-avatar">
                 <div class="user-info">
                     <p class="user-name">James Smith</p>
                     <p class="user-role">Product Lead</p>
@@ -94,11 +94,19 @@
                     <table>
                         <thead>
                             <tr>
-                                <th width="35%" onclick="sortData('text')">Decision Context <span>⇅</span></th>
-                                <th width="20%" onclick="sortData('author')">Asked By <span>⇅</span></th>
+                                <th width="35%" onclick="sortData('text')">
+                                    <div class="th-content">Decision Context <svg class="sort-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7 15l5 5 5-5"/><path d="M7 9l5-5 5 5"/></svg></div>
+                                </th>
+                                <th width="20%" onclick="sortData('author')">
+                                    <div class="th-content">Asked By <svg class="sort-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7 15l5 5 5-5"/><path d="M7 9l5-5 5 5"/></svg></div>
+                                </th>
                                 <th width="10%" class="text-center">Replies</th>
-                                <th width="15%" onclick="sortData('waitHours')">Urgency <span>⇅</span></th>
-                                <th width="10%" onclick="sortData('status')">Status <span>⇅</span></th>
+                                <th width="15%" onclick="sortData('waitHours')">
+                                    <div class="th-content">Urgency <svg class="sort-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7 15l5 5 5-5"/><path d="M7 9l5-5 5 5"/></svg></div>
+                                </th>
+                                <th width="10%" onclick="sortData('status')">
+                                    <div class="th-content">Status <svg class="sort-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7 15l5 5 5-5"/><path d="M7 9l5-5 5 5"/></svg></div>
+                                </th>
                                 <th width="10%">Actions</th>
                             </tr>
                         </thead>
@@ -136,7 +144,9 @@
             </div>
             <div class="modal-footer">
                 <button class="btn-secondary" onclick="closeModal('nudgeModal')">Cancel</button>
-                <button class="btn-primary" onclick="sendNudge()">Send Nudge 🚀</button>
+                <button class="btn-primary" onclick="sendNudge()">
+                    Send Nudge 🚀
+                </button>
             </div>
         </div>
     </div>
@@ -153,7 +163,6 @@
         let currentSort = { field: 'waitHours', dir: 'desc' };
 
         // --- CORE LOGIC ---
-        
         function getResolvedIds() {
             return JSON.parse(localStorage.getItem('resolvedIds') || '[]');
         }
@@ -185,7 +194,6 @@
                 });
             });
 
-            // Initial Sort
             doSort();
             updateKPIs();
             renderTable();
@@ -193,12 +201,11 @@
 
         // --- SORTING LOGIC ---
         function sortData(field) {
-            // Toggle direction if clicking same field
             if(currentSort.field === field) {
                 currentSort.dir = currentSort.dir === 'asc' ? 'desc' : 'asc';
             } else {
                 currentSort.field = field;
-                currentSort.dir = 'desc'; // Default to desc for new sorts
+                currentSort.dir = 'desc';
             }
             doSort();
             renderTable();
@@ -208,13 +215,10 @@
             allData.sort((a, b) => {
                 let valA = a[currentSort.field];
                 let valB = b[currentSort.field];
-
-                // Handle nested author object if sorting by author
                 if(currentSort.field === 'author') {
                     valA = a.author.name;
                     valB = b.author.name;
                 }
-
                 if (valA < valB) return currentSort.dir === 'asc' ? -1 : 1;
                 if (valA > valB) return currentSort.dir === 'asc' ? 1 : -1;
                 return 0;
@@ -277,8 +281,12 @@
                             <td><span class="badge ${badgeClass}">${item.status}</span></td>
                             <td>
                                 <div style="display:flex; gap: 8px;">
-                                    <button class="btn-icon" onclick="event.stopPropagation(); openNudgeModal('${item.author.name}')" title="Nudge User">🔔</button>
-                                    <button class="btn-icon btn-check" onclick="event.stopPropagation(); resolveDecision('${item.id}', true)" title="Mark Resolved">✅</button>
+                                    <button class="btn-icon" onclick="event.stopPropagation(); openNudgeModal('${item.author.name}')" title="Nudge User">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg>
+                                    </button>
+                                    <button class="btn-icon btn-check" onclick="event.stopPropagation(); resolveDecision('${item.id}', true)" title="Mark Resolved">
+                                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -307,21 +315,15 @@
 
         // --- ACTIONS ---
         function resolveDecision(id, fromRow) {
-            // 1. Close modal if open
             closeModal('detailModal');
-
-            // 2. Animate Row Fade Out (if called from row)
             if(fromRow) {
                 const row = document.getElementById(`row-${id}`);
                 if(row) row.classList.add('row-fading-out');
             }
-
-            // 3. Persist to Local Storage
             const resolved = getResolvedIds();
             resolved.push(id);
             localStorage.setItem('resolvedIds', JSON.stringify(resolved));
 
-            // 4. Update Data (Delayed slightly for animation)
             setTimeout(() => {
                 analyzeData();
                 triggerToast('Decision marked as resolved!', true);
@@ -335,7 +337,7 @@
 
         function openDetailModal(id) {
             const item = allData.find(d => d.id === id);
-            if(!item) return; // Might be fading out
+            if(!item) return;
 
             const body = document.getElementById('modalBody');
             const getTime = (hAgo) => {
@@ -376,13 +378,18 @@
             body.innerHTML = `<div class="slack-thread">${mainMsgHtml}<div class="slack-divider"><span>${item.replies.length} replies</span></div>${repliesHtml}</div>`;
             
             document.getElementById('modalActions').innerHTML = `
-                <button class="btn-primary" onclick="triggerToast('Opened in Slack!', false)">Open in Slack</button>
-                <button class="btn-success" onclick="resolveDecision('${item.id}', false)">Mark Resolved ✅</button>
+                <button class="btn-primary" onclick="triggerToast('Opened in Slack!', false)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
+                    Open in Slack
+                </button>
+                <button class="btn-success" onclick="resolveDecision('${item.id}', false)">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"></polyline></svg>
+                    Mark Resolved
+                </button>
             `;
             document.getElementById('detailModal').classList.remove('hidden');
         }
 
-        // Generic Modal Logic
         function openNudgeModal(name) {
             document.getElementById('nudgeTargetName').innerText = name;
             document.getElementById('nudgeModal').classList.remove('hidden');
@@ -402,7 +409,6 @@
             setTimeout(() => toast.classList.add('hidden'), 3000);
         }
 
-        // Init
         analyzeData();
     </script>
 </body>
