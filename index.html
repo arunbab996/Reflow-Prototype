@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reflow - Decision Bottleneck Detector</title>
+    <title>Reflow - Prototype</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -58,7 +58,7 @@
                     <span class="badge-prototype">PROTOTYPE</span>
                 </div>
                 <p class="subtitle">Scanning communication channels for blocked work...</p>
-                <div class="reset-link" onclick="resetDemo()">Reset Demo Data</div>
+                <div class="reset-link" onclick="resetDemo()">Reset Demo</div>
             </header>
 
             <section class="kpi-cards">
@@ -92,7 +92,10 @@
                         <button class="tab-btn" onclick="setFilter('me')">👤 My Requests</button>
                     </div>
                     
-                    <input type="text" id="searchInput" class="search-bar" placeholder="Search...">
+                    <div class="search-wrapper">
+                        <svg class="search-icon-inside" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                        <input type="text" id="searchInput" class="search-bar" placeholder="Search threads...">
+                    </div>
                 </div>
 
                 <div class="table-wrapper">
@@ -124,8 +127,7 @@
             <div class="modal-body" id="modalBody"></div>
             <div class="modal-footer">
                 <button class="btn-secondary" onclick="closeModal('detailModal')">Close</button>
-                <div id="modalActions">
-                    </div>
+                <div id="modalActions"></div>
             </div>
         </div>
     </div>
@@ -165,9 +167,9 @@
                 html += `
                     <tr>
                         <td><div class="skeleton-line" style="width: 80%"></div><div class="skeleton-line" style="width: 40%"></div></td>
-                        <td><div style="display:flex; gap:10px; align-items:center"><div class="skeleton-circle"></div><div class="skeleton-line" style="width: 80px"></div></div></td>
+                        <td><div style="display:flex; gap:10px; align-items:center"><div class="skeleton-circle" style="width:28px; height:28px"></div><div class="skeleton-line" style="width: 80px"></div></div></td>
                         <td><div class="skeleton-line" style="width: 20px; margin:auto"></div></td>
-                        <td><div class="skeleton-line" style="width: 90%"></div></td>
+                        <td><div class="skeleton-line" style="width: 90%; border-radius:10px; height:6px;"></div></td>
                         <td><div class="skeleton-line" style="width: 60px; height: 20px; border-radius:10px"></div></td>
                         <td><div class="skeleton-line" style="width: 30px; height: 30px; border-radius:4px"></div></td>
                     </tr>
@@ -177,18 +179,11 @@
         }
 
         // --- CORE LOGIC ---
-        function getResolvedIds() {
-            return JSON.parse(localStorage.getItem('resolvedIds') || '[]');
-        }
+        function getResolvedIds() { return JSON.parse(localStorage.getItem('resolvedIds') || '[]'); }
 
         function loadDataWithDelay() {
-            // Show skeleton first
             renderSkeleton();
-            
-            // Simulate 1.2s network delay for realism
-            setTimeout(() => {
-                analyzeData();
-            }, 1200);
+            setTimeout(() => { analyzeData(); }, 1200);
         }
 
         function analyzeData() {
@@ -198,7 +193,6 @@
 
             slackData.forEach(msg => {
                 if(resolvedIds.includes(msg.id)) return;
-
                 const waitTimeMs = now - msg.timestamp;
                 const waitTimeHours = Math.floor(waitTimeMs / (1000 * 60 * 60));
                 
@@ -209,17 +203,10 @@
                 let urgencyPct = (waitTimeHours / 48) * 100;
                 if(urgencyPct > 100) urgencyPct = 100;
 
-                allData.push({ 
-                    ...msg, 
-                    waitHours: waitTimeHours, 
-                    status: status,
-                    urgencyPct: urgencyPct
-                });
+                allData.push({ ...msg, waitHours: waitTimeHours, status: status, urgencyPct: urgencyPct });
             });
 
-            doSort();
-            updateKPIs();
-            renderTable();
+            doSort(); updateKPIs(); renderTable();
         }
 
         function doSort() {
@@ -237,7 +224,7 @@
             currentFilter = filterType;
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
-            renderTable(); // Instant render for filter switch
+            renderTable();
         }
 
         function renderTable() {
@@ -327,22 +314,14 @@
             const resolved = getResolvedIds();
             resolved.push(id);
             localStorage.setItem('resolvedIds', JSON.stringify(resolved));
-
-            setTimeout(() => {
-                analyzeData();
-                triggerToast('Decision marked as resolved!', true);
-            }, fromRow ? 500 : 0);
+            setTimeout(() => { analyzeData(); triggerToast('Decision marked as resolved!', true); }, fromRow ? 500 : 0);
         }
 
-        function resetDemo() {
-            localStorage.removeItem('resolvedIds');
-            location.reload();
-        }
+        function resetDemo() { localStorage.removeItem('resolvedIds'); location.reload(); }
 
         function openDetailModal(id) {
             const item = allData.find(d => d.id === id);
             if(!item) return;
-
             const body = document.getElementById('modalBody');
             const getTime = (hAgo) => {
                 const date = new Date(Date.now() - hAgo * 60 * 60 * 1000);
@@ -378,8 +357,6 @@
             if(item.replies.length === 0) repliesHtml = `<div class="no-replies">No replies yet.</div>`;
             body.innerHTML = `<div class="slack-thread">${mainMsgHtml}<div class="slack-divider"><span>${item.replies.length} replies</span></div>${repliesHtml}</div>`;
             
-            // --- FIX FOR BUTTON ALIGNMENT ---
-            // Added flex container for right-side buttons
             document.getElementById('modalActions').innerHTML = `
                 <div style="display: flex; gap: 10px;">
                     <button class="btn-primary" onclick="triggerToast('Opened in Slack!', false)">
@@ -401,15 +378,8 @@
             else { currentSort.field = field; currentSort.dir = 'desc'; }
             doSort(); renderTable();
         }
-        function openNudgeModal(name) {
-            document.getElementById('nudgeTargetName').innerText = name;
-            document.getElementById('nudgeModal').classList.remove('hidden');
-        }
-        function sendNudge() {
-            const name = document.getElementById('nudgeTargetName').innerText;
-            closeModal('nudgeModal');
-            triggerToast(`Nudge sent to ${name} via Slack!`, false);
-        }
+        function openNudgeModal(name) { document.getElementById('nudgeTargetName').innerText = name; document.getElementById('nudgeModal').classList.remove('hidden'); }
+        function sendNudge() { const name = document.getElementById('nudgeTargetName').innerText; closeModal('nudgeModal'); triggerToast(`Nudge sent to ${name} via Slack!`, false); }
         function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
         function triggerToast(msg, isSuccess) {
             const toast = document.getElementById('toast');
