@@ -11,7 +11,7 @@
     /* Semantic Colors */
     --critical: #de350b;
     --warning: #ffab00;
-    --success: #00875a;  /* New Green for Success */
+    --success: #00875a; 
     --success-hover: #006644;
     --neutral: #dfe1e6;
 }
@@ -39,11 +39,9 @@ body {
 .logo-img { height: 32px; width: auto; display: block; }
 .logo-link h1 { font-size: 20px; font-weight: 700; color: var(--text-primary); letter-spacing: -0.5px; }
 
-/* FIXED: Removed Dots by forcing list-style none and zero padding */
+/* Navigation */
 .nav-section h2 { font-size: 11px; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 12px; font-weight: 700; padding-left: 12px; }
 .nav-section ul { list-style: none; padding: 0; margin: 0; } 
-.nav-section li { list-style: none; }
-
 .nav-link { display: flex; align-items: center; padding: 10px 12px; text-decoration: none; color: var(--text-secondary); border-radius: 6px; margin-bottom: 4px; font-size: 14px; font-weight: 500; transition: all 0.2s; }
 .nav-link:hover { background-color: #ebecf0; color: var(--text-primary); }
 .nav-link.active { background-color: #e6effc; color: var(--primary-brand); }
@@ -56,11 +54,14 @@ body {
 
 /* --- Main Content --- */
 .main-content { flex: 1; padding: 32px 40px; overflow-y: auto; }
-.main-header { margin-bottom: 32px; }
+.main-header { margin-bottom: 32px; position: relative; }
 .title-group { display: flex; align-items: center; gap: 12px; margin-bottom: 6px; }
 .main-header h1 { font-size: 24px; font-weight: 700; }
 .badge-prototype { background-color: #e6effc; color: var(--primary-brand); font-size: 11px; padding: 4px 8px; border-radius: 4px; font-weight: 700; }
 .subtitle { color: var(--text-secondary); font-size: 14px; }
+
+/* Reset Demo Link (Hidden usually) */
+.reset-link { position: absolute; right: 0; top: 0; font-size: 12px; color: var(--text-secondary); cursor: pointer; text-decoration: underline; }
 
 /* KPI Cards */
 .kpi-cards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-bottom: 32px; }
@@ -78,13 +79,17 @@ body {
 .tab-btn { background: none; border: none; padding: 6px 12px; font-size: 14px; color: var(--text-secondary); font-weight: 500; cursor: pointer; border-radius: 4px; transition: all 0.2s; }
 .tab-btn:hover { background: #ebecf0; }
 .tab-btn.active { background: #e6effc; color: var(--primary-brand); font-weight: 600; }
-
 .search-bar { padding: 8px 12px; border: 1px solid var(--border-color); border-radius: 6px; font-size: 14px; width: 220px; outline: none; }
 .search-bar:focus { border-color: var(--primary-brand); }
 
 table { width: 100%; border-collapse: collapse; font-size: 14px; }
 thead { background-color: #fafbfc; }
-th { text-align: left; padding: 12px 20px; color: var(--text-secondary); font-weight: 600; font-size: 12px; text-transform: uppercase; border-bottom: 1px solid var(--border-color); }
+
+/* NEW: Sortable Headers */
+th { text-align: left; padding: 12px 20px; color: var(--text-secondary); font-weight: 600; font-size: 12px; text-transform: uppercase; border-bottom: 1px solid var(--border-color); cursor: pointer; user-select: none; }
+th:hover { color: var(--primary-brand); background: #f0f2f5; }
+th span { margin-left: 4px; font-size: 10px; }
+
 td { padding: 16px 20px; border-bottom: 1px solid var(--border-color); vertical-align: middle; }
 tr:last-child td { border-bottom: none; }
 .clickable-row { cursor: pointer; transition: background 0.1s; }
@@ -92,11 +97,17 @@ tr:last-child td { border-bottom: none; }
 .text-center { text-align: center; }
 .empty-state { text-align: center; color: var(--text-secondary); padding: 40px; }
 
-/* Cell Content */
+/* ANIMATION: Fade Out Row */
+@keyframes fadeOutSlide {
+    from { opacity: 1; transform: translateX(0); }
+    to { opacity: 0; transform: translateX(20px); height: 0; padding: 0; }
+}
+.row-fading-out { animation: fadeOutSlide 0.5s forwards; pointer-events: none; }
+
+/* Content Styling */
 .msg-text { font-weight: 500; margin-bottom: 4px; line-height: 1.4; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 350px; }
 .msg-sub { font-size: 12px; color: var(--text-secondary); display: flex; gap: 8px; align-items: center; }
 .channel-tag { background: #ebecf0; padding: 2px 6px; border-radius: 4px; font-weight: 600; color: #42526e; }
-
 .author-cell { display: flex; align-items: center; gap: 10px; font-weight: 500; }
 .author-meta { display: flex; flex-direction: column; line-height: 1.2; }
 .author-role { font-size: 11px; color: var(--text-secondary); font-weight: 400; }
@@ -119,20 +130,21 @@ tr:last-child td { border-bottom: none; }
 
 .btn-icon { background: none; border: 1px solid var(--border-color); border-radius: 4px; width: 32px; height: 32px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; font-size: 16px;}
 .btn-icon:hover { border-color: var(--primary-brand); background: #e6effc; }
+.btn-check { color: var(--success); }
+.btn-check:hover { background: #e3fcef; border-color: var(--success); }
 
-/* --- MODALS --- */
+/* Modals */
 .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(9, 30, 66, 0.54); display: flex; justify-content: center; align-items: center; z-index: 1000; }
 .modal-overlay.hidden { display: none; }
 .modal-content { background: white; width: 600px; border-radius: 8px; box-shadow: 0 8px 16px rgba(0,0,0,0.1); overflow: hidden; display: flex; flex-direction: column; max-height: 90vh; }
 .modal-content.small-modal { width: 400px; }
-
 .modal-header { padding: 16px 24px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; background: #fff; }
 .modal-header h2 { font-size: 18px; font-weight: 700; }
 .close-btn { background: none; border: none; font-size: 24px; cursor: pointer; color: var(--text-secondary); }
 .modal-body { padding: 24px; overflow-y: auto; }
 .modal-footer { padding: 16px 24px; background: #fafbfc; border-top: 1px solid var(--border-color); display: flex; justify-content: flex-end; gap: 10px; }
 
-/* SLACK THREAD STYLING */
+/* Slack Thread */
 .slack-thread { display: flex; flex-direction: column; gap: 16px; }
 .slack-msg { display: flex; gap: 12px; align-items: flex-start; }
 .slack-avatar { width: 36px; height: 36px; border-radius: 4px; object-fit: cover; }
@@ -140,7 +152,6 @@ tr:last-child td { border-bottom: none; }
 .slack-meta { margin-bottom: 2px; }
 .slack-name { font-weight: 900; color: #1d1c1d; margin-right: 6px; font-size: 15px; }
 .slack-time { font-size: 12px; color: #616061; }
-/* NEW: Channel Tag in Modal */
 .slack-channel-badge { font-size: 12px; color: #5e6c84; font-weight: 400; background: #ebecf0; padding: 0 6px; border-radius: 4px; margin-left: 6px; }
 .slack-text { font-size: 15px; line-height: 1.46668; color: #1d1c1d; margin-top: 2px;}
 .slack-divider { display: flex; align-items: center; margin: 16px 0; color: #616061; font-size: 13px; }
@@ -148,18 +159,18 @@ tr:last-child td { border-bottom: none; }
 .slack-divider span { padding: 0 10px; }
 .no-replies { text-align: center; color: var(--text-secondary); font-style: italic; margin-top: 10px; }
 
-/* Nudge & Actions */
+/* Buttons */
+.btn-primary { background: var(--primary-brand); color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: 600; }
+.btn-secondary { background: white; color: var(--text-primary); border: 1px solid var(--border-color); padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: 600; }
+.btn-success { background: var(--success); color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: 600; margin-left: 10px; }
+.btn-success:hover { background: var(--success-hover); }
+
+/* Nudge inputs */
 .input-label { margin-bottom: 8px; font-size: 14px; }
 .nudge-textarea { width: 100%; height: 100px; border: 1px solid var(--border-color); border-radius: 4px; padding: 10px; font-family: inherit; font-size: 14px; resize: none; }
 .nudge-textarea:focus { border-color: var(--primary-brand); outline: none; }
 
-.btn-primary { background: var(--primary-brand); color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: 600; }
-.btn-secondary { background: white; color: var(--text-primary); border: 1px solid var(--border-color); padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: 600; }
-/* NEW: Success Button for Resolve */
-.btn-success { background: var(--success); color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: 600; margin-left: 10px; }
-.btn-success:hover { background: var(--success-hover); }
-
-/* --- TOAST --- */
+/* Toast */
 .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #172b4d; color: white; padding: 12px 24px; border-radius: 4px; font-size: 14px; z-index: 2000; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: opacity 0.3s; }
-.toast.success { background: var(--success); } /* Green toast */
+.toast.success { background: var(--success); }
 .toast.hidden { opacity: 0; pointer-events: none; }
