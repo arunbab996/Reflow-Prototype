@@ -11,7 +11,8 @@
     /* Semantic Colors */
     --critical: #de350b;
     --warning: #ffab00;
-    --success: #00875a;
+    --success: #00875a;  /* New Green for Success */
+    --success-hover: #006644;
     --neutral: #dfe1e6;
 }
 
@@ -34,12 +35,15 @@ body {
     display: flex; flex-direction: column;
 }
 
-/* Clickable Logo */
 .logo-link { text-decoration: none; display: flex; align-items: center; gap: 12px; margin-bottom: 32px; padding-left: 8px; cursor: pointer; }
 .logo-img { height: 32px; width: auto; display: block; }
 .logo-link h1 { font-size: 20px; font-weight: 700; color: var(--text-primary); letter-spacing: -0.5px; }
 
+/* FIXED: Removed Dots by forcing list-style none and zero padding */
 .nav-section h2 { font-size: 11px; text-transform: uppercase; color: var(--text-secondary); margin-bottom: 12px; font-weight: 700; padding-left: 12px; }
+.nav-section ul { list-style: none; padding: 0; margin: 0; } 
+.nav-section li { list-style: none; }
+
 .nav-link { display: flex; align-items: center; padding: 10px 12px; text-decoration: none; color: var(--text-secondary); border-radius: 6px; margin-bottom: 4px; font-size: 14px; font-weight: 500; transition: all 0.2s; }
 .nav-link:hover { background-color: #ebecf0; color: var(--text-primary); }
 .nav-link.active { background-color: #e6effc; color: var(--primary-brand); }
@@ -136,20 +140,26 @@ tr:last-child td { border-bottom: none; }
 .slack-meta { margin-bottom: 2px; }
 .slack-name { font-weight: 900; color: #1d1c1d; margin-right: 6px; font-size: 15px; }
 .slack-time { font-size: 12px; color: #616061; }
-.slack-text { font-size: 15px; line-height: 1.46668; color: #1d1c1d; }
+/* NEW: Channel Tag in Modal */
+.slack-channel-badge { font-size: 12px; color: #5e6c84; font-weight: 400; background: #ebecf0; padding: 0 6px; border-radius: 4px; margin-left: 6px; }
+.slack-text { font-size: 15px; line-height: 1.46668; color: #1d1c1d; margin-top: 2px;}
 .slack-divider { display: flex; align-items: center; margin: 16px 0; color: #616061; font-size: 13px; }
 .slack-divider::before, .slack-divider::after { content: ""; flex: 1; border-bottom: 1px solid var(--border-color); }
 .slack-divider span { padding: 0 10px; }
 .no-replies { text-align: center; color: var(--text-secondary); font-style: italic; margin-top: 10px; }
 
-/* Nudge Specific */
+/* Nudge & Actions */
 .input-label { margin-bottom: 8px; font-size: 14px; }
 .nudge-textarea { width: 100%; height: 100px; border: 1px solid var(--border-color); border-radius: 4px; padding: 10px; font-family: inherit; font-size: 14px; resize: none; }
 .nudge-textarea:focus { border-color: var(--primary-brand); outline: none; }
 
 .btn-primary { background: var(--primary-brand); color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: 600; }
 .btn-secondary { background: white; color: var(--text-primary); border: 1px solid var(--border-color); padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: 600; }
+/* NEW: Success Button for Resolve */
+.btn-success { background: var(--success); color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: 600; margin-left: 10px; }
+.btn-success:hover { background: var(--success-hover); }
 
 /* --- TOAST --- */
 .toast { position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%); background: #172b4d; color: white; padding: 12px 24px; border-radius: 4px; font-size: 14px; z-index: 2000; box-shadow: 0 4px 12px rgba(0,0,0,0.15); transition: opacity 0.3s; }
+.toast.success { background: var(--success); } /* Green toast */
 .toast.hidden { opacity: 0; pointer-events: none; }
