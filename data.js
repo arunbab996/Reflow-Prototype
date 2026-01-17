@@ -13,13 +13,23 @@ const slackData = [
         author: {
             name: "Sarah Chen",
             role: "Product Manager",
-            avatar: "SC" // Initials for avatar placeholder
+            avatar: "https://i.pravatar.cc/150?u=sarah" // Real Avatar
         },
         text: "Here is the final design for the login flow v2. Do we go ahead with this version for the sprint?",
-        timestamp: hoursAgo(50), // 50 hours ago -> Critical
+        timestamp: hoursAgo(50), // Critical
         replies: [
-            { author: "Mike", text: "Looks good to me but unsure about legal compliance on the cookie banner.", timestamp: hoursAgo(49) },
-            { author: "Legal Bot", text: "I'll check with the legal team.", timestamp: hoursAgo(48) }
+            { 
+                author: "Mike Ross", 
+                avatar: "https://i.pravatar.cc/150?u=mike",
+                text: "Looks good to me but unsure about legal compliance on the cookie banner.", 
+                timestamp: hoursAgo(49) 
+            },
+            { 
+                author: "Legal Bot", 
+                avatar: "https://ui-avatars.com/api/?name=Legal+Bot&background=random", // Bot avatar
+                text: "I'll check with the legal team.", 
+                timestamp: hoursAgo(48) 
+            }
         ]
     },
     {
@@ -28,10 +38,10 @@ const slackData = [
         author: {
             name: "Mike Ross",
             role: "Senior Engineer",
-            avatar: "MR"
+            avatar: "https://i.pravatar.cc/150?u=mike"
         },
         text: "Should we swap the database provider to Postgres before the data migration starts?",
-        timestamp: hoursAgo(14), // 14 hours ago -> Stalled (0 replies)
+        timestamp: hoursAgo(14), // Stalled
         replies: []
     },
     {
@@ -40,12 +50,17 @@ const slackData = [
         author: {
             name: "Jessica Wu",
             role: "Head of Design",
-            avatar: "JW"
+            avatar: "https://i.pravatar.cc/150?u=jessica"
         },
         text: "Can we approve the budget for the new 3D illustration pack ($500)?",
-        timestamp: hoursAgo(5), // 5 hours ago -> Unresolved (Active)
+        timestamp: hoursAgo(5), // Unresolved
         replies: [
-            { author: "Tom", text: "Is this a one-time fee or subscription?", timestamp: hoursAgo(4) }
+            { 
+                author: "Tom Haverford", 
+                avatar: "https://i.pravatar.cc/150?u=tom",
+                text: "Is this a one-time fee or subscription?", 
+                timestamp: hoursAgo(4) 
+            }
         ]
     },
     {
@@ -54,25 +69,18 @@ const slackData = [
         author: {
             name: "Tom Haverford",
             role: "Growth Marketer",
-            avatar: "TH"
+            avatar: "https://i.pravatar.cc/150?u=tom"
         },
         text: "Hey team, looking at the Q3 ad spend allocation for LinkedIn. Approve?",
-        timestamp: hoursAgo(72), // 72 hours ago -> Critical
+        timestamp: hoursAgo(72), // Critical
         replies: [
-            { author: "Sarah", text: "Let's discuss in the sync later.", timestamp: hoursAgo(70) }
+            { 
+                author: "Sarah Chen", 
+                avatar: "https://i.pravatar.cc/150?u=sarah",
+                text: "Let's discuss in the sync later.", 
+                timestamp: hoursAgo(70) 
+            }
         ]
-    },
-    {
-        id: "MSG-1005",
-        channel: "#random",
-        author: {
-            name: "Dave The Intern",
-            role: "Ops Intern",
-            avatar: "DI"
-        },
-        text: "Lunch order is here! Who ordered the spicy tuna?",
-        timestamp: hoursAgo(2),
-        replies: [] // Should be ignored by logic (no decision keywords)
     },
     {
         id: "MSG-1006",
@@ -80,26 +88,17 @@ const slackData = [
         author: {
             name: "Sarah Chen",
             role: "Product Manager",
-            avatar: "SC"
+            avatar: "https://i.pravatar.cc/150?u=sarah"
         },
         text: "Should we delay the feature release until the analytics bug is patched?",
-        timestamp: hoursAgo(30), // 30 hours ago -> Unresolved
+        timestamp: hoursAgo(30), // Unresolved
         replies: [
-            { author: "Mike", text: "It's a small bug, maybe we hotfix?", timestamp: hoursAgo(29) }
+            { 
+                author: "Mike Ross", 
+                avatar: "https://i.pravatar.cc/150?u=mike",
+                text: "It's a small bug, maybe we hotfix?", 
+                timestamp: hoursAgo(29) 
+            }
         ]
-    },
-    {
-        id: "MSG-1007",
-        channel: "#infrastructure",
-        author: {
-            name: "Alex CTO",
-            role: "CTO",
-            avatar: "AC"
-        },
-        text: "Do we go ahead with the AWS Reserved Instance contract renewal?",
-        timestamp: hoursAgo(100),
-        replies: [
-            { author: "Finance", text: "Yes, approved. I signed it this morning.", timestamp: hoursAgo(99) }
-        ] // Resolved -> Should be filtered out
     }
 ];
