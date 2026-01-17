@@ -12,7 +12,10 @@
 
         <aside class="sidebar">
             <div class="logo-section">
-                <span class="logo-icon">🔵</span> <h1>Reflow</h1>
+                <svg class="brand-logo" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path fill-rule="evenodd" clip-rule="evenodd" d="M6 16C6 10.4772 10.4772 6 16 6H26V12H16C13.7909 12 12 13.7909 12 16C12 18.2091 13.7909 20 16 20H26V26H16C10.4772 26 6 21.5228 6 16Z" fill="#0052cc"/>
+                </svg>
+                <h1>Reflow</h1>
             </div>
 
             <div class="nav-section">
@@ -21,25 +24,25 @@
                     <ul>
                         <li>
                             <a href="#" class="nav-link active">
-                                <span class="nav-icon">📋</span>
+                                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" stroke-linecap="round" stroke-linejoin="round"/></svg>
                                 Blocker Detector
                             </a>
                         </li>
                         <li>
                             <a href="#" class="nav-link">
-                                <span class="nav-icon">◻️</span>
+                                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
                                 Dashboard
                             </a>
                         </li>
                         <li>
                             <a href="#" class="nav-link">
-                                <span class="nav-icon">📊</span>
+                                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
                                 Reports
                             </a>
                         </li>
                         <li>
                             <a href="#" class="nav-link">
-                                <span class="nav-icon">⚙️</span>
+                                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"></path></svg>
                                 Settings
                             </a>
                         </li>
@@ -48,10 +51,12 @@
             </div>
 
             <div class="user-profile-section">
-                <div class="user-avatar">👤</div>
+                <div class="user-avatar">
+                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5e6c84" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                </div>
                 <div class="user-info">
-                    <p class="user-name">Jame Smiths</p>
-                    <p class="user-role">User Profile</p>
+                    <p class="user-name">James Smith</p>
+                    <p class="user-role">Product Lead</p>
                 </div>
             </div>
         </aside>
@@ -62,102 +67,221 @@
                     <h1>Decision Bottleneck Detector</h1>
                     <span class="badge-prototype">PROTOTYPE</span>
                 </div>
-                <p class="subtitle">Scanning communication channels...</p>
+                <p class="subtitle">Scanning communication channels for blocked work...</p>
             </header>
 
             <section class="kpi-cards">
                 <div class="card">
                     <div class="card-header">
                         <h3>Total Blocked</h3>
-                        <span class="card-icon">ℹ️</span>
+                        <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
                     </div>
-                    <div class="big-number">3</div>
+                    <div class="big-number" id="total-blocked">0</div>
                 </div>
                 <div class="card">
                     <div class="card-header">
                         <h3>Avg. Wait Time</h3>
-                        <span class="card-icon">🕒</span>
+                        <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                     </div>
-                    <div class="big-number">45h</div>
+                    <div class="big-number" id="avg-wait">0h</div>
                 </div>
                 <div class="card">
                     <div class="card-header">
                         <h3>Oldest Bottleneck</h3>
+                        <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
                     </div>
-                    <div class="big-number">72h</div>
+                    <div class="big-number" id="max-wait">0h</div>
                 </div>
             </section>
 
             <div class="insight-banner">
-                <span class="insight-icon">⚡</span>
-                <p><strong>Insight:</strong> 🚨 Attention: 2 critical decisions are blocking work for over 48 hours.</p>
+                <svg class="insight-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
+                <div id="insight-text">Analyzing data...</div>
             </div>
 
             <section class="decisions-table-section">
                 <div class="table-header">
                     <h2>Decisions</h2>
-                    <input type="text" class="search-bar" placeholder="Search">
+                    <input type="text" class="search-bar" placeholder="Search messages...">
                 </div>
 
                 <div class="table-wrapper">
                     <table>
                         <thead>
                             <tr>
-                                <th class="text-left">Decision</th>
-                                <th class="text-center">Status ↓</th>
-                                <th class="text-center">Status</th>
-                                <th class="text-right">Oldest</th>
+                                <th width="45%">Decision Context</th>
+                                <th width="15%">Asked By</th>
+                                <th width="15%">Replies</th>
+                                <th width="15%">Wait Time</th>
+                                <th width="10%">Status</th>
                             </tr>
                         </thead>
-                        <tbody>
-                            <tr>
-                                <td>Reflow Management</td>
-                                <td class="text-center">3</td>
-                                <td class="text-center"><span class="status-text">45h ntara</span></td>
-                                <td class="text-right">72h</td>
-                            </tr>
-                            <tr>
-                                <td>Reflow Bvitcheniak management</td>
-                                <td class="text-center"><span class="badge badge-red">Pot Blocked</span></td>
-                                <td class="text-center"><span class="badge badge-yellow">No-Blocked</span></td>
-                                <td class="text-right">72 hoi</td>
-                            </tr>
-                            <tr>
-                                <td>Reflow Bvitcheniak management</td>
-                                <td class="text-center"><span class="badge badge-red">Pot Blocked</span></td>
-                                <td class="text-center"><span class="badge badge-yellow">No-Blocked</span></td>
-                                <td class="text-right">24 min</td>
-                            </tr>
-                            <tr>
-                                <td>Reflow Bvitcheniak management</td>
-                                <td class="text-center"><span class="badge badge-red">Fot Blocked</span></td>
-                                <td class="text-center"><span class="badge badge-yellow">No-Blocked</span></td>
-                                <td class="text-right">24 min</td>
-                            </tr>
-                            <tr>
-                                <td>Reflow Bvitcheniak management</td>
-                                <td class="text-center"><span class="badge badge-red">Pot Blocked</span></td>
-                                <td class="text-center"><span class="badge badge-yellow">No-Blocked</span></td>
-                                <td class="text-right">1 mont</td>
-                            </tr>
-                            <tr>
-                                <td>Reflow Crruztomer service</td>
-                                <td class="text-center"><span class="badge badge-gray">Active</span></td>
-                                <td class="text-center"><span class="badge badge-gray">Imsant</span></td>
-                                <td class="text-right">3 days</td>
-                            </tr>
-                             <tr>
-                                <td>Reflow Decklops</td>
-                                <td class="text-center"><span class="badge badge-gray">Active</span></td>
-                                <td class="text-center"><span class="badge badge-gray">Modont</span></td>
-                                <td class="text-right">1 halo</td>
-                            </tr>
-                        </tbody>
+                        <tbody id="decision-table-body">
+                            </tbody>
                     </table>
                 </div>
             </section>
         </main>
     </div>
 
+    <script>
+        // --- 1. MOCK DATA (REAL MESSAGES FROM PROMPT 1) ---
+        const HOURS = 60 * 60 * 1000;
+        const now = Date.now();
+
+        const rawMessages = [
+            {
+                id: 1,
+                author: "Sarah (Product)",
+                text: "Here is the final design for the login flow. Do we go ahead with this version?",
+                timestamp: now - (50 * HOURS), 
+                replies: [
+                    { text: "Looks good to me but unsure about legal.", timestamp: now - (49 * HOURS) },
+                    { text: "I'll check with legal.", timestamp: now - (48 * HOURS) }
+                ]
+            },
+            {
+                id: 2,
+                author: "Mike (Eng)",
+                text: "Should we swap the database provider before the migration?",
+                timestamp: now - (14 * HOURS), 
+                replies: []
+            },
+            {
+                id: 3,
+                author: "Jessica (Design)",
+                text: "Can we approve the budget for the new illustration pack?",
+                timestamp: now - (5 * HOURS),
+                replies: [
+                    { text: "How much is it?", timestamp: now - (4 * HOURS) }
+                ]
+            },
+            {
+                id: 4,
+                author: "Tom (Marketing)",
+                text: "Hey team, looking at the Q3 ad spend. Approve?",
+                timestamp: now - (72 * HOURS), 
+                replies: [
+                    { text: "Let's discuss in sync.", timestamp: now - (70 * HOURS) }
+                ]
+            },
+            {
+                id: 5,
+                author: "Dave (Ops)",
+                text: "Lunch order is here!",
+                timestamp: now - (2 * HOURS),
+                replies: [] 
+            },
+            {
+                id: 6,
+                author: "Sarah (Product)",
+                text: "Should we delay the release?",
+                timestamp: now - (30 * HOURS),
+                replies: [
+                    { text: "Maybe?", timestamp: now - (29 * HOURS) }
+                ]
+            },
+            {
+                id: 7,
+                author: "CTO",
+                text: "Do we go ahead with the AWS contract?",
+                timestamp: now - (100 * HOURS),
+                replies: [
+                    { text: "Yes, approved.", timestamp: now - (99 * HOURS) }
+                ]
+            }
+        ];
+
+        // --- 2. LOGIC HELPERS ---
+
+        function isDecisionRequest(text) {
+            const lower = text.toLowerCase();
+            const keywords = ["should we", "can we", "approve", "do we go ahead"];
+            return keywords.some(k => lower.includes(k)) || text.trim().endsWith("?");
+        }
+
+        function isResolved(replies) {
+            const resolutionWords = ["yes", "approved", "go ahead", "let’s do it", "let's do it"];
+            return replies.some(reply => 
+                resolutionWords.some(word => reply.text.toLowerCase().includes(word))
+            );
+        }
+
+        function getDecisionStatus(diffHours, replyCount) {
+            if (diffHours >= 48) return "Critical";
+            if (replyCount === 0 && diffHours >= 12) return "Stalled";
+            return "Unresolved";
+        }
+
+        // --- 3. ANALYTICS & RENDER ---
+
+        function renderDashboard() {
+            const tbody = document.getElementById('decision-table-body');
+            const bottlenecks = [];
+
+            // Process Data
+            rawMessages.forEach(msg => {
+                if (!isDecisionRequest(msg.text)) return;
+                if (isResolved(msg.replies)) return;
+
+                const waitTimeMs = now - msg.timestamp;
+                const waitTimeHours = Math.floor(waitTimeMs / (1000 * 60 * 60));
+                const status = getDecisionStatus(waitTimeHours, msg.replies.length);
+
+                bottlenecks.push({ ...msg, waitHours: waitTimeHours, status: status });
+            });
+
+            // Sort (Critical first)
+            bottlenecks.sort((a, b) => b.waitHours - a.waitHours);
+
+            // Update KPIs
+            const totalBlocked = bottlenecks.length;
+            const avgWait = totalBlocked > 0 
+                ? Math.floor(bottlenecks.reduce((acc, curr) => acc + curr.waitHours, 0) / totalBlocked) 
+                : 0;
+            const maxWait = totalBlocked > 0 ? Math.max(...bottlenecks.map(d => d.waitHours)) : 0;
+
+            document.getElementById('total-blocked').innerText = totalBlocked;
+            document.getElementById('avg-wait').innerText = avgWait + "h";
+            document.getElementById('max-wait').innerText = maxWait + "h";
+
+            // Update Insight
+            const criticalCount = bottlenecks.filter(d => d.status === "Critical").length;
+            let insight = "No bottlenecks. Great work!";
+            if (criticalCount > 0) insight = `🚨 <strong>Action Required:</strong> ${criticalCount} critical decisions have been blocked for over 48 hours.`;
+            else if (totalBlocked > 0) insight = `ℹ️ <strong>Status:</strong> You have ${totalBlocked} pending decisions.`;
+            document.getElementById('insight-text').innerHTML = insight;
+
+            // Render Table Rows
+            let html = "";
+            bottlenecks.forEach(item => {
+                let badgeClass = "badge-gray";
+                if (item.status === "Critical") badgeClass = "badge-red";
+                if (item.status === "Stalled") badgeClass = "badge-yellow";
+
+                html += `
+                    <tr>
+                        <td>
+                            <div class="msg-text">${item.text}</div>
+                            <div class="msg-sub">ID: #${item.id} • ${new Date(item.timestamp).toLocaleDateString()}</div>
+                        </td>
+                        <td>
+                            <div class="author-cell">
+                                <div class="avatar-small">${item.author.charAt(0)}</div>
+                                ${item.author}
+                            </div>
+                        </td>
+                         <td>${item.replies.length}</td>
+                        <td class="font-bold">${item.waitHours}h</td>
+                        <td><span class="badge ${badgeClass}">${item.status}</span></td>
+                    </tr>
+                `;
+            });
+            tbody.innerHTML = html;
+        }
+
+        // Initialize
+        renderDashboard();
+    </script>
 </body>
 </html>
