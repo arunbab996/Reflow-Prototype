@@ -59,8 +59,6 @@ body {
 .main-header h1 { font-size: 24px; font-weight: 700; }
 .badge-prototype { background-color: #e6effc; color: var(--primary-brand); font-size: 11px; padding: 4px 8px; border-radius: 4px; font-weight: 700; }
 .subtitle { color: var(--text-secondary); font-size: 14px; }
-
-/* Reset Demo Link (Hidden usually) */
 .reset-link { position: absolute; right: 0; top: 0; font-size: 12px; color: var(--text-secondary); cursor: pointer; text-decoration: underline; }
 
 /* KPI Cards */
@@ -85,10 +83,12 @@ body {
 table { width: 100%; border-collapse: collapse; font-size: 14px; }
 thead { background-color: #fafbfc; }
 
-/* NEW: Sortable Headers */
-th { text-align: left; padding: 12px 20px; color: var(--text-secondary); font-weight: 600; font-size: 12px; text-transform: uppercase; border-bottom: 1px solid var(--border-color); cursor: pointer; user-select: none; }
+/* Sortable Headers */
+th { text-align: left; padding: 12px 20px; color: var(--text-secondary); font-weight: 600; font-size: 12px; text-transform: uppercase; border-bottom: 1px solid var(--border-color); cursor: pointer; user-select: none; display: table-cell; vertical-align: middle; }
 th:hover { color: var(--primary-brand); background: #f0f2f5; }
-th span { margin-left: 4px; font-size: 10px; }
+.th-content { display: flex; align-items: center; gap: 6px; }
+.sort-icon { width: 14px; height: 14px; opacity: 0.5; }
+th:hover .sort-icon { opacity: 1; }
 
 td { padding: 16px 20px; border-bottom: 1px solid var(--border-color); vertical-align: middle; }
 tr:last-child td { border-bottom: none; }
@@ -97,7 +97,7 @@ tr:last-child td { border-bottom: none; }
 .text-center { text-align: center; }
 .empty-state { text-align: center; color: var(--text-secondary); padding: 40px; }
 
-/* ANIMATION: Fade Out Row */
+/* ANIMATION: Fade Out */
 @keyframes fadeOutSlide {
     from { opacity: 1; transform: translateX(0); }
     to { opacity: 0; transform: translateX(20px); height: 0; padding: 0; }
@@ -122,16 +122,18 @@ tr:last-child td { border-bottom: none; }
 .progress-yellow { background: var(--warning); }
 .progress-red { background: var(--critical); }
 
-/* Badges & Buttons */
+/* Badges */
 .badge { padding: 4px 10px; border-radius: 12px; font-size: 12px; font-weight: 700; display: inline-block; white-space: nowrap; }
 .badge-critical { background: #ffebe6; color: var(--critical); }
 .badge-stalled { background: #fff0b3; color: #172b4d; }
 .badge-unresolved { background: #dfe1e6; color: var(--text-secondary); }
 
-.btn-icon { background: none; border: 1px solid var(--border-color); border-radius: 4px; width: 32px; height: 32px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; font-size: 16px;}
-.btn-icon:hover { border-color: var(--primary-brand); background: #e6effc; }
-.btn-check { color: var(--success); }
-.btn-check:hover { background: #e3fcef; border-color: var(--success); }
+/* SVG Icon Buttons */
+.btn-icon { background: white; border: 1px solid var(--border-color); border-radius: 4px; width: 32px; height: 32px; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; color: var(--text-secondary); }
+.btn-icon:hover { border-color: var(--primary-brand); background: #e6effc; color: var(--primary-brand); }
+.btn-icon svg { width: 16px; height: 16px; stroke-width: 2px; }
+
+.btn-check:hover { background: #e3fcef; border-color: var(--success); color: var(--success); }
 
 /* Modals */
 .modal-overlay { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(9, 30, 66, 0.54); display: flex; justify-content: center; align-items: center; z-index: 1000; }
@@ -160,9 +162,9 @@ tr:last-child td { border-bottom: none; }
 .no-replies { text-align: center; color: var(--text-secondary); font-style: italic; margin-top: 10px; }
 
 /* Buttons */
-.btn-primary { background: var(--primary-brand); color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: 600; }
+.btn-primary { background: var(--primary-brand); color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: 600; display: flex; align-items: center; gap: 8px; }
 .btn-secondary { background: white; color: var(--text-primary); border: 1px solid var(--border-color); padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: 600; }
-.btn-success { background: var(--success); color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: 600; margin-left: 10px; }
+.btn-success { background: var(--success); color: white; border: none; padding: 8px 16px; border-radius: 4px; cursor: pointer; font-weight: 600; margin-left: 10px; display: flex; align-items: center; gap: 8px; }
 .btn-success:hover { background: var(--success-hover); }
 
 /* Nudge inputs */
