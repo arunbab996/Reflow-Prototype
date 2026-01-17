@@ -9,49 +9,24 @@
 <body>
 
     <div class="app-container">
-
         <aside class="sidebar">
             <div class="logo-section">
                 <img src="reflow.avif" alt="Reflow Logo" class="logo-img">
                 <h1>Reflow</h1>
             </div>
-
             <div class="nav-section">
                 <h2>Navigation</h2>
                 <nav>
                     <ul>
-                        <li>
-                            <a href="#" class="nav-link active">
-                                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" stroke-linecap="round" stroke-linejoin="round"/></svg>
-                                Blocker Detector
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="nav-link">
-                                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
-                                Dashboard
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="nav-link">
-                                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
-                                Reports
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="nav-link">
-                                <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-2 2 2 2 0 01-2-2v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83 0 2 2 0 010-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 01-2-2 2 2 0 012-2h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 010-2.83 2 2 0 012.83 0l.06.06a1.65 1.65 0 001.82.33H9a1.65 1.65 0 001-1.51V3a2 2 0 012-2 2 2 0 012 2v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 0 2 2 0 010 2.83l-.06.06a1.65 1.65 0 00-.33 1.82V9a1.65 1.65 0 001.51 1H21a2 2 0 012 2 2 2 0 01-2 2h-.09a1.65 1.65 0 00-1.51 1z"></path></svg>
-                                Settings
-                            </a>
-                        </li>
+                        <li><a href="#" class="nav-link active"><span class="nav-icon">📋</span> Blocker Detector</a></li>
+                        <li><a href="#" class="nav-link"><span class="nav-icon">◻️</span> Dashboard</a></li>
+                        <li><a href="#" class="nav-link"><span class="nav-icon">📊</span> Reports</a></li>
+                        <li><a href="#" class="nav-link"><span class="nav-icon">⚙️</span> Settings</a></li>
                     </ul>
                 </nav>
             </div>
-
             <div class="user-profile-section">
-                <div class="user-avatar">
-                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#5e6c84" stroke-width="2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
-                </div>
+                <div class="user-avatar">JS</div>
                 <div class="user-info">
                     <p class="user-name">James Smith</p>
                     <p class="user-role">Product Lead</p>
@@ -72,47 +47,43 @@
                 <div class="card">
                     <div class="card-header">
                         <h3>Total Blocked</h3>
-                        <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
                     </div>
                     <div class="big-number" id="total-blocked">0</div>
                 </div>
                 <div class="card">
                     <div class="card-header">
                         <h3>Avg. Wait Time</h3>
-                        <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
                     </div>
                     <div class="big-number" id="avg-wait">0h</div>
                 </div>
                 <div class="card">
                     <div class="card-header">
                         <h3>Oldest Bottleneck</h3>
-                        <svg class="card-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect><line x1="16" y1="2" x2="16" y2="6"></line><line x1="8" y1="2" x2="8" y2="6"></line><line x1="3" y1="10" x2="21" y2="10"></line></svg>
                     </div>
                     <div class="big-number" id="max-wait">0h</div>
                 </div>
             </section>
 
             <div class="insight-banner">
-                <svg class="insight-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"></polygon></svg>
                 <div id="insight-text">Analyzing data...</div>
             </div>
 
             <section class="decisions-table-section">
                 <div class="table-header">
                     <h2>Decisions</h2>
-                    <input type="text" class="search-bar" placeholder="Search messages...">
+                    <input type="text" id="searchInput" class="search-bar" placeholder="Search by keyword or author...">
                 </div>
 
                 <div class="table-wrapper">
                     <table>
                         <thead>
                             <tr>
-                                <th width="45%">Decision Context</th>
+                                <th width="40%">Decision Context</th>
                                 <th width="20%">Asked By</th>
                                 <th width="10%">Replies</th>
                                 <th width="10%">Wait Time</th>
-                                <th width="15%">Status</th>
-                            </tr>
+                                <th width="10%">Status</th>
+                                <th width="10%">Action</th> </tr>
                         </thead>
                         <tbody id="decision-table-body">
                             </tbody>
@@ -122,11 +93,32 @@
         </main>
     </div>
 
+    <div id="detailModal" class="modal-overlay hidden">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Thread Details</h2>
+                <button class="close-btn" onclick="closeModal()">×</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+                </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeModal()">Close</button>
+                <button class="btn-primary" onclick="triggerToast('Opened in Slack!')">Open in Slack</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="toast" class="toast hidden">Notification sent!</div>
+
     <script src="data.js"></script>
 
     <script>
-        // --- LOGIC HELPERS ---
+        // --- 1. SETUP ---
+        const tbody = document.getElementById('decision-table-body');
+        const searchInput = document.getElementById('searchInput');
+        let processedData = [];
 
+        // --- 2. CORE LOGIC ---
         function isDecisionRequest(text) {
             const lower = text.toLowerCase();
             const keywords = ["should we", "can we", "approve", "do we go ahead"];
@@ -146,15 +138,11 @@
             return "Unresolved";
         }
 
-        // --- RENDER DASHBOARD ---
-
-        function renderDashboard() {
-            // NOTE: 'slackData' comes from data.js
-            const tbody = document.getElementById('decision-table-body');
-            const bottlenecks = [];
+        // --- 3. DATA PROCESSING ---
+        function analyzeData() {
             const now = Date.now();
+            processedData = [];
 
-            // Process Data
             slackData.forEach(msg => {
                 if (!isDecisionRequest(msg.text)) return;
                 if (isResolved(msg.replies)) return;
@@ -163,45 +151,45 @@
                 const waitTimeHours = Math.floor(waitTimeMs / (1000 * 60 * 60));
                 const status = getDecisionStatus(waitTimeHours, msg.replies.length);
 
-                bottlenecks.push({ ...msg, waitHours: waitTimeHours, status: status });
+                processedData.push({ ...msg, waitHours: waitTimeHours, status: status });
             });
 
-            // Sort (Critical first)
-            bottlenecks.sort((a, b) => b.waitHours - a.waitHours);
+            // Sort: Critical first, then by wait time
+            processedData.sort((a, b) => b.waitHours - a.waitHours);
+            
+            updateKPIs();
+            renderTable(processedData);
+        }
 
-            // Update KPIs
-            const totalBlocked = bottlenecks.length;
-            const avgWait = totalBlocked > 0 
-                ? Math.floor(bottlenecks.reduce((acc, curr) => acc + curr.waitHours, 0) / totalBlocked) 
-                : 0;
-            const maxWait = totalBlocked > 0 ? Math.max(...bottlenecks.map(d => d.waitHours)) : 0;
+        // --- 4. RENDERING & UI ---
+        function updateKPIs() {
+            const total = processedData.length;
+            const avg = total > 0 ? Math.floor(processedData.reduce((a, b) => a + b.waitHours, 0) / total) : 0;
+            const max = total > 0 ? Math.max(...processedData.map(d => d.waitHours)) : 0;
+            const critical = processedData.filter(d => d.status === "Critical").length;
 
-            document.getElementById('total-blocked').innerText = totalBlocked;
-            document.getElementById('avg-wait').innerText = avgWait + "h";
-            document.getElementById('max-wait').innerText = maxWait + "h";
+            document.getElementById('total-blocked').innerText = total;
+            document.getElementById('avg-wait').innerText = avg + "h";
+            document.getElementById('max-wait').innerText = max + "h";
 
-            // Update Insight
-            const criticalCount = bottlenecks.filter(d => d.status === "Critical").length;
-            let insight = "No bottlenecks. Great work!";
-            if (criticalCount > 0) insight = `🚨 <strong>Action Required:</strong> ${criticalCount} critical decisions have been blocked for over 48 hours.`;
-            else if (totalBlocked > 0) insight = `ℹ️ <strong>Status:</strong> You have ${totalBlocked} pending decisions.`;
+            const insight = critical > 0 
+                ? `🚨 <strong>Action Required:</strong> ${critical} critical decisions blocked > 48h.`
+                : `ℹ️ <strong>Status:</strong> ${total} decisions pending.`;
             document.getElementById('insight-text').innerHTML = insight;
+        }
 
-            // Render Table Rows
+        function renderTable(data) {
             let html = "";
-            bottlenecks.forEach(item => {
+            data.forEach(item => {
                 let badgeClass = "badge-unresolved";
                 if (item.status === "Critical") badgeClass = "badge-critical";
                 if (item.status === "Stalled") badgeClass = "badge-stalled";
 
                 html += `
-                    <tr>
+                    <tr onclick="openModal('${item.id}')" class="clickable-row">
                         <td>
                             <div class="msg-text">${item.text}</div>
-                            <div class="msg-sub">
-                                <span class="channel-tag">${item.channel}</span> 
-                                <span>#${item.id}</span>
-                            </div>
+                            <div class="msg-sub"><span class="channel-tag">${item.channel}</span> #${item.id}</div>
                         </td>
                         <td>
                             <div class="author-cell">
@@ -215,14 +203,76 @@
                         <td class="text-center">${item.replies.length}</td>
                         <td class="font-bold">${item.waitHours}h</td>
                         <td><span class="badge ${badgeClass}">${item.status}</span></td>
+                        <td>
+                            <button class="btn-nudge" onclick="event.stopPropagation(); triggerToast('Nudged ${item.author.name} on Slack!')">
+                                Nudge 🔔
+                            </button>
+                        </td>
                     </tr>
                 `;
             });
             tbody.innerHTML = html;
         }
 
-        // Initialize
-        renderDashboard();
+        // --- 5. INTERACTIVITY (Search, Modal, Toast) ---
+
+        // Search Listener
+        searchInput.addEventListener('keyup', (e) => {
+            const term = e.target.value.toLowerCase();
+            const filtered = processedData.filter(item => 
+                item.text.toLowerCase().includes(term) || 
+                item.author.name.toLowerCase().includes(term)
+            );
+            renderTable(filtered);
+        });
+
+        // Modal Logic
+        function openModal(id) {
+            const item = processedData.find(d => d.id === id);
+            if(!item) return;
+
+            const modal = document.getElementById('detailModal');
+            const body = document.getElementById('modalBody');
+            
+            // Build Thread View
+            let repliesHtml = item.replies.map(r => `
+                <div class="thread-reply">
+                    <strong>${r.author}:</strong> ${r.text}
+                    <div class="time-ago">Earlier today</div>
+                </div>
+            `).join('');
+
+            if(item.replies.length === 0) repliesHtml = `<div class="no-replies">No replies yet.</div>`;
+
+            body.innerHTML = `
+                <div class="thread-main">
+                    <div class="thread-meta">${item.author.name} asked in ${item.channel}:</div>
+                    <div class="thread-question">"${item.text}"</div>
+                </div>
+                <div class="thread-list">
+                    ${repliesHtml}
+                </div>
+            `;
+            
+            modal.classList.remove('hidden');
+        }
+
+        function closeModal() {
+            document.getElementById('detailModal').classList.add('hidden');
+        }
+
+        // Toast Notification
+        function triggerToast(msg) {
+            const toast = document.getElementById('toast');
+            toast.innerText = msg;
+            toast.classList.remove('hidden');
+            setTimeout(() => {
+                toast.classList.add('hidden');
+            }, 3000);
+        }
+
+        // Init
+        analyzeData();
     </script>
 </body>
 </html>
