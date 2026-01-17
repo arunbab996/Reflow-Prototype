@@ -69,9 +69,16 @@
             </div>
 
             <section class="decisions-table-section">
-                <div class="table-header">
-                    <h2>Decisions</h2>
-                    <input type="text" id="searchInput" class="search-bar" placeholder="Search by keyword or author...">
+                
+                <div class="table-controls">
+                    <div class="tabs">
+                        <button class="tab-btn active" onclick="setFilter('all')">All Decisions</button>
+                        <button class="tab-btn" onclick="setFilter('critical')">🔥 Critical</button>
+                        <button class="tab-btn" onclick="setFilter('stalled')">⚠️ Stalled</button>
+                        <button class="tab-btn" onclick="setFilter('me')">👤 My Requests</button>
+                    </div>
+                    
+                    <input type="text" id="searchInput" class="search-bar" placeholder="Search...">
                 </div>
 
                 <div class="table-wrapper">
@@ -80,10 +87,11 @@
                             <tr>
                                 <th width="40%">Decision Context</th>
                                 <th width="20%">Asked By</th>
-                                <th width="10%">Replies</th>
-                                <th width="10%">Wait Time</th>
+                                <th width="10%" class="text-center">Replies</th>
+                                <th width="15%">Urgency (48h Limit)</th>
                                 <th width="10%">Status</th>
-                                <th width="10%">Action</th> </tr>
+                                <th width="5%"></th>
+                            </tr>
                         </thead>
                         <tbody id="decision-table-body">
                             </tbody>
@@ -97,13 +105,29 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h2 id="modalTitle">Thread Details</h2>
-                <button class="close-btn" onclick="closeModal()">×</button>
+                <button class="close-btn" onclick="closeModal('detailModal')">×</button>
             </div>
-            <div class="modal-body" id="modalBody">
-                </div>
+            <div class="modal-body" id="modalBody"></div>
             <div class="modal-footer">
-                <button class="btn-secondary" onclick="closeModal()">Close</button>
+                <button class="btn-secondary" onclick="closeModal('detailModal')">Close</button>
                 <button class="btn-primary" onclick="triggerToast('Opened in Slack!')">Open in Slack</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="nudgeModal" class="modal-overlay hidden">
+        <div class="modal-content small-modal">
+            <div class="modal-header">
+                <h2>Send Nudge</h2>
+                <button class="close-btn" onclick="closeModal('nudgeModal')">×</button>
+            </div>
+            <div class="modal-body">
+                <p class="input-label">Message to <strong id="nudgeTargetName">User</strong>:</p>
+                <textarea id="nudgeMessage" class="nudge-textarea">Hey! Just bumping this decision request. It's blocking the sprint.</textarea>
+            </div>
+            <div class="modal-footer">
+                <button class="btn-secondary" onclick="closeModal('nudgeModal')">Cancel</button>
+                <button class="btn-primary" onclick="sendNudge()">Send Nudge 🚀</button>
             </div>
         </div>
     </div>
@@ -111,14 +135,14 @@
     <div id="toast" class="toast hidden">Notification sent!</div>
 
     <script src="data.js"></script>
-
     <script>
-        // --- 1. SETUP ---
+        // --- CONFIG & STATE ---
         const tbody = document.getElementById('decision-table-body');
         const searchInput = document.getElementById('searchInput');
-        let processedData = [];
+        let allData = [];
+        let currentFilter = 'all';
 
-        // --- 2. CORE LOGIC ---
+        // --- LOGIC ---
         function isDecisionRequest(text) {
             const lower = text.toLowerCase();
             const keywords = ["should we", "can we", "approve", "do we go ahead"];
@@ -138,10 +162,10 @@
             return "Unresolved";
         }
 
-        // --- 3. DATA PROCESSING ---
+        // --- PROCESSING ---
         function analyzeData() {
             const now = Date.now();
-            processedData = [];
+            allData = [];
 
             slackData.forEach(msg => {
                 if (!isDecisionRequest(msg.text)) return;
@@ -150,125 +174,176 @@
                 const waitTimeMs = now - msg.timestamp;
                 const waitTimeHours = Math.floor(waitTimeMs / (1000 * 60 * 60));
                 const status = getDecisionStatus(waitTimeHours, msg.replies.length);
+                
+                // Calculate Urgency % (Max 48 hours)
+                let urgencyPct = (waitTimeHours / 48) * 100;
+                if(urgencyPct > 100) urgencyPct = 100;
 
-                processedData.push({ ...msg, waitHours: waitTimeHours, status: status });
+                allData.push({ 
+                    ...msg, 
+                    waitHours: waitTimeHours, 
+                    status: status,
+                    urgencyPct: urgencyPct
+                });
             });
 
-            // Sort: Critical first, then by wait time
-            processedData.sort((a, b) => b.waitHours - a.waitHours);
+            // Sort: Critical first
+            allData.sort((a, b) => b.waitHours - a.waitHours);
             
             updateKPIs();
-            renderTable(processedData);
+            renderTable();
         }
 
-        // --- 4. RENDERING & UI ---
+        // --- RENDER ---
+        function setFilter(filterType) {
+            currentFilter = filterType;
+            
+            // Update Tab UI
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            event.target.classList.add('active');
+            
+            renderTable();
+        }
+
+        function renderTable() {
+            // 1. Filter Logic
+            const term = searchInput.value.toLowerCase();
+            let displayData = allData.filter(item => {
+                // Text Search
+                const matchesSearch = item.text.toLowerCase().includes(term) || item.author.name.toLowerCase().includes(term);
+                
+                // Tab Filter
+                let matchesTab = true;
+                if(currentFilter === 'critical') matchesTab = item.status === 'Critical';
+                if(currentFilter === 'stalled') matchesTab = item.status === 'Stalled';
+                if(currentFilter === 'me') matchesTab = item.author.name === 'James Smith'; // Mock "Me"
+                
+                return matchesSearch && matchesTab;
+            });
+
+            // 2. HTML Generation
+            let html = "";
+            if(displayData.length === 0) {
+                html = `<tr><td colspan="6" class="empty-state">No decisions found matching filters.</td></tr>`;
+            } else {
+                displayData.forEach(item => {
+                    let badgeClass = "badge-unresolved";
+                    let progressBarClass = "progress-blue";
+                    
+                    if (item.status === "Critical") {
+                        badgeClass = "badge-critical";
+                        progressBarClass = "progress-red";
+                    } else if (item.status === "Stalled") {
+                        badgeClass = "badge-stalled";
+                        progressBarClass = "progress-yellow";
+                    }
+
+                    html += `
+                        <tr onclick="openDetailModal('${item.id}')" class="clickable-row">
+                            <td>
+                                <div class="msg-text">${item.text}</div>
+                                <div class="msg-sub"><span class="channel-tag">${item.channel}</span> #${item.id}</div>
+                            </td>
+                            <td>
+                                <div class="author-cell">
+                                    <div class="avatar-small">${item.author.avatar}</div>
+                                    <div class="author-meta">
+                                        <span>${item.author.name}</span>
+                                        <span class="author-role">${item.author.role}</span>
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="text-center">${item.replies.length}</td>
+                            <td>
+                                <div class="urgency-wrapper">
+                                    <div class="urgency-text">${item.waitHours} hrs</div>
+                                    <div class="progress-track">
+                                        <div class="progress-fill ${progressBarClass}" style="width: ${item.urgencyPct}%"></div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="badge ${badgeClass}">${item.status}</span></td>
+                            <td>
+                                <button class="btn-icon" onclick="event.stopPropagation(); openNudgeModal('${item.author.name}')" title="Nudge User">
+                                    🔔
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                });
+            }
+            tbody.innerHTML = html;
+        }
+
         function updateKPIs() {
-            const total = processedData.length;
-            const avg = total > 0 ? Math.floor(processedData.reduce((a, b) => a + b.waitHours, 0) / total) : 0;
-            const max = total > 0 ? Math.max(...processedData.map(d => d.waitHours)) : 0;
-            const critical = processedData.filter(d => d.status === "Critical").length;
+            const total = allData.length;
+            const avg = total > 0 ? Math.floor(allData.reduce((a, b) => a + b.waitHours, 0) / total) : 0;
+            const critical = allData.filter(d => d.status === "Critical").length;
 
             document.getElementById('total-blocked').innerText = total;
             document.getElementById('avg-wait').innerText = avg + "h";
-            document.getElementById('max-wait').innerText = max + "h";
-
+            document.getElementById('max-wait').innerText = (total > 0 ? Math.max(...allData.map(d => d.waitHours)) : 0) + "h";
+            
             const insight = critical > 0 
                 ? `🚨 <strong>Action Required:</strong> ${critical} critical decisions blocked > 48h.`
                 : `ℹ️ <strong>Status:</strong> ${total} decisions pending.`;
             document.getElementById('insight-text').innerHTML = insight;
         }
 
-        function renderTable(data) {
-            let html = "";
-            data.forEach(item => {
-                let badgeClass = "badge-unresolved";
-                if (item.status === "Critical") badgeClass = "badge-critical";
-                if (item.status === "Stalled") badgeClass = "badge-stalled";
+        // --- INTERACTION ---
+        searchInput.addEventListener('keyup', renderTable);
 
-                html += `
-                    <tr onclick="openModal('${item.id}')" class="clickable-row">
-                        <td>
-                            <div class="msg-text">${item.text}</div>
-                            <div class="msg-sub"><span class="channel-tag">${item.channel}</span> #${item.id}</div>
-                        </td>
-                        <td>
-                            <div class="author-cell">
-                                <div class="avatar-small">${item.author.avatar}</div>
-                                <div class="author-meta">
-                                    <span>${item.author.name}</span>
-                                    <span class="author-role">${item.author.role}</span>
-                                </div>
-                            </div>
-                        </td>
-                        <td class="text-center">${item.replies.length}</td>
-                        <td class="font-bold">${item.waitHours}h</td>
-                        <td><span class="badge ${badgeClass}">${item.status}</span></td>
-                        <td>
-                            <button class="btn-nudge" onclick="event.stopPropagation(); triggerToast('Nudged ${item.author.name} on Slack!')">
-                                Nudge 🔔
-                            </button>
-                        </td>
-                    </tr>
-                `;
-            });
-            tbody.innerHTML = html;
-        }
-
-        // --- 5. INTERACTIVITY (Search, Modal, Toast) ---
-
-        // Search Listener
-        searchInput.addEventListener('keyup', (e) => {
-            const term = e.target.value.toLowerCase();
-            const filtered = processedData.filter(item => 
-                item.text.toLowerCase().includes(term) || 
-                item.author.name.toLowerCase().includes(term)
-            );
-            renderTable(filtered);
-        });
-
-        // Modal Logic
-        function openModal(id) {
-            const item = processedData.find(d => d.id === id);
+        // Details Modal
+        function openDetailModal(id) {
+            const item = allData.find(d => d.id === id);
             if(!item) return;
 
-            const modal = document.getElementById('detailModal');
             const body = document.getElementById('modalBody');
-            
-            // Build Thread View
             let repliesHtml = item.replies.map(r => `
                 <div class="thread-reply">
-                    <strong>${r.author}:</strong> ${r.text}
-                    <div class="time-ago">Earlier today</div>
+                    <div class="reply-header">
+                        <strong>${r.author}</strong> <span class="time-ago">replied earlier</span>
+                    </div>
+                    ${r.text}
                 </div>
             `).join('');
 
-            if(item.replies.length === 0) repliesHtml = `<div class="no-replies">No replies yet.</div>`;
+            if(item.replies.length === 0) repliesHtml = `<div class="no-replies">No replies yet. This thread is stalled.</div>`;
 
             body.innerHTML = `
                 <div class="thread-main">
-                    <div class="thread-meta">${item.author.name} asked in ${item.channel}:</div>
+                    <div class="thread-meta">${item.author.name} asked in <span class="channel-tag">${item.channel}</span></div>
                     <div class="thread-question">"${item.text}"</div>
                 </div>
                 <div class="thread-list">
+                    <h4>Thread History</h4>
                     ${repliesHtml}
                 </div>
             `;
-            
-            modal.classList.remove('hidden');
+            document.getElementById('detailModal').classList.remove('hidden');
         }
 
-        function closeModal() {
-            document.getElementById('detailModal').classList.add('hidden');
+        // Nudge Modal
+        function openNudgeModal(name) {
+            document.getElementById('nudgeTargetName').innerText = name;
+            document.getElementById('nudgeModal').classList.remove('hidden');
         }
 
-        // Toast Notification
+        function sendNudge() {
+            const name = document.getElementById('nudgeTargetName').innerText;
+            closeModal('nudgeModal');
+            triggerToast(`Nudge sent to ${name} via Slack!`);
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+        }
+
         function triggerToast(msg) {
             const toast = document.getElementById('toast');
             toast.innerText = msg;
             toast.classList.remove('hidden');
-            setTimeout(() => {
-                toast.classList.add('hidden');
-            }, 3000);
+            setTimeout(() => toast.classList.add('hidden'), 3000);
         }
 
         // Init
