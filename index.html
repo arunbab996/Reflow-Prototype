@@ -124,7 +124,8 @@
             <div class="modal-body" id="modalBody"></div>
             <div class="modal-footer">
                 <button class="btn-secondary" onclick="closeModal('detailModal')">Close</button>
-                <button class="btn-primary" onclick="triggerToast('Opened in Slack!')">Open in Slack</button>
+                <div id="modalActions">
+                    </div>
             </div>
         </div>
     </div>
@@ -156,38 +157,21 @@
         let allData = [];
         let currentFilter = 'all';
 
-        // --- LOGIC ---
-        function isDecisionRequest(text) {
-            const lower = text.toLowerCase();
-            const keywords = ["should we", "can we", "approve", "do we go ahead"];
-            return keywords.some(k => lower.includes(k)) || text.trim().endsWith("?");
-        }
-
-        function isResolved(replies) {
-            const resolutionWords = ["yes", "approved", "go ahead", "let’s do it", "let's do it"];
-            return replies.some(reply => 
-                resolutionWords.some(word => reply.text.toLowerCase().includes(word))
-            );
-        }
-
-        function getDecisionStatus(diffHours, replyCount) {
-            if (diffHours >= 48) return "Critical";
-            if (replyCount === 0 && diffHours >= 12) return "Stalled";
-            return "Unresolved";
-        }
-
-        // --- PROCESSING ---
+        // --- CORE LOGIC (Process Data) ---
         function analyzeData() {
             const now = Date.now();
             allData = [];
 
             slackData.forEach(msg => {
-                if (!isDecisionRequest(msg.text)) return;
-                if (isResolved(msg.replies)) return;
+                if(msg.resolved) return; // Skip if manually resolved by user
 
                 const waitTimeMs = now - msg.timestamp;
                 const waitTimeHours = Math.floor(waitTimeMs / (1000 * 60 * 60));
-                const status = getDecisionStatus(waitTimeHours, msg.replies.length);
+                
+                // Re-calc status dynamically
+                let status = "Unresolved";
+                if (waitTimeHours >= 48) status = "Critical";
+                else if (msg.replies.length === 0 && waitTimeHours >= 12) status = "Stalled";
                 
                 let urgencyPct = (waitTimeHours / 48) * 100;
                 if(urgencyPct > 100) urgencyPct = 100;
@@ -201,7 +185,6 @@
             });
 
             allData.sort((a, b) => b.waitHours - a.waitHours);
-            
             updateKPIs();
             renderTable();
         }
@@ -227,7 +210,7 @@
 
             let html = "";
             if(displayData.length === 0) {
-                html = `<tr><td colspan="6" class="empty-state">No decisions found matching filters.</td></tr>`;
+                html = `<tr><td colspan="6" class="empty-state">No active decisions found.</td></tr>`;
             } else {
                 displayData.forEach(item => {
                     let badgeClass = "badge-unresolved";
@@ -303,13 +286,12 @@
 
             const body = document.getElementById('modalBody');
             
-            // Function to generate fake time for visuals
             const getTime = (hAgo) => {
                 const date = new Date(Date.now() - hAgo * 60 * 60 * 1000);
                 return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             };
 
-            // Build Main Message
+            // Main Message (With Channel Badge)
             let mainMsgHtml = `
                 <div class="slack-msg">
                     <img src="${item.author.avatar}" class="slack-avatar">
@@ -317,13 +299,13 @@
                         <div class="slack-meta">
                             <span class="slack-name">${item.author.name}</span>
                             <span class="slack-time">${getTime(item.waitHours)}</span>
+                            <span class="slack-channel-badge">${item.channel}</span>
                         </div>
                         <div class="slack-text">${item.text}</div>
                     </div>
                 </div>
             `;
 
-            // Build Replies
             let repliesHtml = item.replies.map(r => `
                 <div class="slack-msg">
                     <img src="${r.avatar}" class="slack-avatar">
@@ -337,20 +319,36 @@
                 </div>
             `).join('');
 
-            if(item.replies.length === 0) {
-                repliesHtml = `<div class="no-replies">No replies yet.</div>`;
-            }
+            if(item.replies.length === 0) repliesHtml = `<div class="no-replies">No replies yet.</div>`;
 
             body.innerHTML = `
                 <div class="slack-thread">
                     ${mainMsgHtml}
-                    <div class="slack-divider">
-                        <span>${item.replies.length} replies</span>
-                    </div>
+                    <div class="slack-divider"><span>${item.replies.length} replies</span></div>
                     ${repliesHtml}
                 </div>
             `;
+            
+            // Set Footer Buttons
+            const actions = document.getElementById('modalActions');
+            actions.innerHTML = `
+                <button class="btn-primary" onclick="triggerToast('Opened in Slack!', false)">Open in Slack</button>
+                <button class="btn-success" onclick="resolveDecision('${item.id}')">Mark Resolved ✅</button>
+            `;
+
             document.getElementById('detailModal').classList.remove('hidden');
+        }
+
+        // --- ACTIONS ---
+        function resolveDecision(id) {
+            // Find in raw data and mark resolved
+            const rawItem = slackData.find(d => d.id === id);
+            if(rawItem) {
+                rawItem.resolved = true; // Mark as done
+            }
+            closeModal('detailModal');
+            analyzeData(); // Re-run logic to remove from list
+            triggerToast('Decision marked as resolved!', true);
         }
 
         function openNudgeModal(name) {
@@ -361,16 +359,19 @@
         function sendNudge() {
             const name = document.getElementById('nudgeTargetName').innerText;
             closeModal('nudgeModal');
-            triggerToast(`Nudge sent to ${name} via Slack!`);
+            triggerToast(`Nudge sent to ${name} via Slack!`, false);
         }
 
         function closeModal(id) {
             document.getElementById(id).classList.add('hidden');
         }
 
-        function triggerToast(msg) {
+        function triggerToast(msg, isSuccess) {
             const toast = document.getElementById('toast');
             toast.innerText = msg;
+            toast.className = "toast"; // reset
+            if(isSuccess) toast.classList.add('success');
+            
             toast.classList.remove('hidden');
             setTimeout(() => toast.classList.add('hidden'), 3000);
         }
