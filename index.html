@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Reflow - Decision Bottleneck Detector</title>
+    <title>Reflow - Prototype</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -55,25 +55,20 @@
                     <span class="badge-prototype">PROTOTYPE</span>
                 </div>
                 <p class="subtitle">Scanning communication channels for blocked work...</p>
+                <div class="reset-link" onclick="resetDemo()">Reset Demo Data</div>
             </header>
 
             <section class="kpi-cards">
                 <div class="card">
-                    <div class="card-header">
-                        <h3>Total Blocked</h3>
-                    </div>
+                    <div class="card-header"><h3>Total Blocked</h3></div>
                     <div class="big-number" id="total-blocked">0</div>
                 </div>
                 <div class="card">
-                    <div class="card-header">
-                        <h3>Avg. Wait Time</h3>
-                    </div>
+                    <div class="card-header"><h3>Avg. Wait Time</h3></div>
                     <div class="big-number" id="avg-wait">0h</div>
                 </div>
                 <div class="card">
-                    <div class="card-header">
-                        <h3>Oldest Bottleneck</h3>
-                    </div>
+                    <div class="card-header"><h3>Oldest Bottleneck</h3></div>
                     <div class="big-number" id="max-wait">0h</div>
                 </div>
             </section>
@@ -99,12 +94,12 @@
                     <table>
                         <thead>
                             <tr>
-                                <th width="40%">Decision Context</th>
-                                <th width="20%">Asked By</th>
+                                <th width="35%" onclick="sortData('text')">Decision Context <span>⇅</span></th>
+                                <th width="20%" onclick="sortData('author')">Asked By <span>⇅</span></th>
                                 <th width="10%" class="text-center">Replies</th>
-                                <th width="15%">Urgency (48h Limit)</th>
-                                <th width="10%">Status</th>
-                                <th width="5%"></th>
+                                <th width="15%" onclick="sortData('waitHours')">Urgency <span>⇅</span></th>
+                                <th width="10%" onclick="sortData('status')">Status <span>⇅</span></th>
+                                <th width="10%">Actions</th>
                             </tr>
                         </thead>
                         <tbody id="decision-table-body">
@@ -124,8 +119,7 @@
             <div class="modal-body" id="modalBody"></div>
             <div class="modal-footer">
                 <button class="btn-secondary" onclick="closeModal('detailModal')">Close</button>
-                <div id="modalActions">
-                    </div>
+                <div id="modalActions"></div>
             </div>
         </div>
     </div>
@@ -151,24 +145,31 @@
 
     <script src="data.js"></script>
     <script>
-        // --- CONFIG & STATE ---
+        // --- STATE & CONFIG ---
         const tbody = document.getElementById('decision-table-body');
         const searchInput = document.getElementById('searchInput');
         let allData = [];
         let currentFilter = 'all';
+        let currentSort = { field: 'waitHours', dir: 'desc' };
 
-        // --- CORE LOGIC (Process Data) ---
+        // --- CORE LOGIC ---
+        
+        function getResolvedIds() {
+            return JSON.parse(localStorage.getItem('resolvedIds') || '[]');
+        }
+
         function analyzeData() {
             const now = Date.now();
+            const resolvedIds = getResolvedIds();
             allData = [];
 
             slackData.forEach(msg => {
-                if(msg.resolved) return; // Skip if manually resolved by user
+                // Skip if persistent resolved
+                if(resolvedIds.includes(msg.id)) return;
 
                 const waitTimeMs = now - msg.timestamp;
                 const waitTimeHours = Math.floor(waitTimeMs / (1000 * 60 * 60));
                 
-                // Re-calc status dynamically
                 let status = "Unresolved";
                 if (waitTimeHours >= 48) status = "Critical";
                 else if (msg.replies.length === 0 && waitTimeHours >= 12) status = "Stalled";
@@ -184,9 +185,40 @@
                 });
             });
 
-            allData.sort((a, b) => b.waitHours - a.waitHours);
+            // Initial Sort
+            doSort();
             updateKPIs();
             renderTable();
+        }
+
+        // --- SORTING LOGIC ---
+        function sortData(field) {
+            // Toggle direction if clicking same field
+            if(currentSort.field === field) {
+                currentSort.dir = currentSort.dir === 'asc' ? 'desc' : 'asc';
+            } else {
+                currentSort.field = field;
+                currentSort.dir = 'desc'; // Default to desc for new sorts
+            }
+            doSort();
+            renderTable();
+        }
+
+        function doSort() {
+            allData.sort((a, b) => {
+                let valA = a[currentSort.field];
+                let valB = b[currentSort.field];
+
+                // Handle nested author object if sorting by author
+                if(currentSort.field === 'author') {
+                    valA = a.author.name;
+                    valB = b.author.name;
+                }
+
+                if (valA < valB) return currentSort.dir === 'asc' ? -1 : 1;
+                if (valA > valB) return currentSort.dir === 'asc' ? 1 : -1;
+                return 0;
+            });
         }
 
         // --- RENDER ---
@@ -215,17 +247,11 @@
                 displayData.forEach(item => {
                     let badgeClass = "badge-unresolved";
                     let progressBarClass = "progress-blue";
-                    
-                    if (item.status === "Critical") {
-                        badgeClass = "badge-critical";
-                        progressBarClass = "progress-red";
-                    } else if (item.status === "Stalled") {
-                        badgeClass = "badge-stalled";
-                        progressBarClass = "progress-yellow";
-                    }
+                    if (item.status === "Critical") { badgeClass = "badge-critical"; progressBarClass = "progress-red"; } 
+                    else if (item.status === "Stalled") { badgeClass = "badge-stalled"; progressBarClass = "progress-yellow"; }
 
                     html += `
-                        <tr onclick="openDetailModal('${item.id}')" class="clickable-row">
+                        <tr id="row-${item.id}" onclick="openDetailModal('${item.id}')" class="clickable-row">
                             <td>
                                 <div class="msg-text">${item.text}</div>
                                 <div class="msg-sub"><span class="channel-tag">${item.channel}</span> #${item.id}</div>
@@ -250,9 +276,10 @@
                             </td>
                             <td><span class="badge ${badgeClass}">${item.status}</span></td>
                             <td>
-                                <button class="btn-icon" onclick="event.stopPropagation(); openNudgeModal('${item.author.name}')" title="Nudge User">
-                                    🔔
-                                </button>
+                                <div style="display:flex; gap: 8px;">
+                                    <button class="btn-icon" onclick="event.stopPropagation(); openNudgeModal('${item.author.name}')" title="Nudge User">🔔</button>
+                                    <button class="btn-icon btn-check" onclick="event.stopPropagation(); resolveDecision('${item.id}', true)" title="Mark Resolved">✅</button>
+                                </div>
                             </td>
                         </tr>
                     `;
@@ -276,22 +303,47 @@
             document.getElementById('insight-text').innerHTML = insight;
         }
 
-        // --- INTERACTION ---
         searchInput.addEventListener('keyup', renderTable);
 
-        // SLACK VIEW MODAL
+        // --- ACTIONS ---
+        function resolveDecision(id, fromRow) {
+            // 1. Close modal if open
+            closeModal('detailModal');
+
+            // 2. Animate Row Fade Out (if called from row)
+            if(fromRow) {
+                const row = document.getElementById(`row-${id}`);
+                if(row) row.classList.add('row-fading-out');
+            }
+
+            // 3. Persist to Local Storage
+            const resolved = getResolvedIds();
+            resolved.push(id);
+            localStorage.setItem('resolvedIds', JSON.stringify(resolved));
+
+            // 4. Update Data (Delayed slightly for animation)
+            setTimeout(() => {
+                analyzeData();
+                triggerToast('Decision marked as resolved!', true);
+            }, fromRow ? 500 : 0);
+        }
+
+        function resetDemo() {
+            localStorage.removeItem('resolvedIds');
+            location.reload();
+        }
+
         function openDetailModal(id) {
             const item = allData.find(d => d.id === id);
-            if(!item) return;
+            if(!item) return; // Might be fading out
 
             const body = document.getElementById('modalBody');
-            
             const getTime = (hAgo) => {
                 const date = new Date(Date.now() - hAgo * 60 * 60 * 1000);
                 return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
             };
 
-            // Main Message (With Channel Badge)
+            // Main Message
             let mainMsgHtml = `
                 <div class="slack-msg">
                     <img src="${item.author.avatar}" class="slack-avatar">
@@ -305,7 +357,7 @@
                     </div>
                 </div>
             `;
-
+            // Replies
             let repliesHtml = item.replies.map(r => `
                 <div class="slack-msg">
                     <img src="${r.avatar}" class="slack-avatar">
@@ -321,57 +373,31 @@
 
             if(item.replies.length === 0) repliesHtml = `<div class="no-replies">No replies yet.</div>`;
 
-            body.innerHTML = `
-                <div class="slack-thread">
-                    ${mainMsgHtml}
-                    <div class="slack-divider"><span>${item.replies.length} replies</span></div>
-                    ${repliesHtml}
-                </div>
-            `;
+            body.innerHTML = `<div class="slack-thread">${mainMsgHtml}<div class="slack-divider"><span>${item.replies.length} replies</span></div>${repliesHtml}</div>`;
             
-            // Set Footer Buttons
-            const actions = document.getElementById('modalActions');
-            actions.innerHTML = `
+            document.getElementById('modalActions').innerHTML = `
                 <button class="btn-primary" onclick="triggerToast('Opened in Slack!', false)">Open in Slack</button>
-                <button class="btn-success" onclick="resolveDecision('${item.id}')">Mark Resolved ✅</button>
+                <button class="btn-success" onclick="resolveDecision('${item.id}', false)">Mark Resolved ✅</button>
             `;
-
             document.getElementById('detailModal').classList.remove('hidden');
         }
 
-        // --- ACTIONS ---
-        function resolveDecision(id) {
-            // Find in raw data and mark resolved
-            const rawItem = slackData.find(d => d.id === id);
-            if(rawItem) {
-                rawItem.resolved = true; // Mark as done
-            }
-            closeModal('detailModal');
-            analyzeData(); // Re-run logic to remove from list
-            triggerToast('Decision marked as resolved!', true);
-        }
-
+        // Generic Modal Logic
         function openNudgeModal(name) {
             document.getElementById('nudgeTargetName').innerText = name;
             document.getElementById('nudgeModal').classList.remove('hidden');
         }
-
         function sendNudge() {
             const name = document.getElementById('nudgeTargetName').innerText;
             closeModal('nudgeModal');
             triggerToast(`Nudge sent to ${name} via Slack!`, false);
         }
-
-        function closeModal(id) {
-            document.getElementById(id).classList.add('hidden');
-        }
-
+        function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
         function triggerToast(msg, isSuccess) {
             const toast = document.getElementById('toast');
             toast.innerText = msg;
-            toast.className = "toast"; // reset
+            toast.className = "toast"; 
             if(isSuccess) toast.classList.add('success');
-            
             toast.classList.remove('hidden');
             setTimeout(() => toast.classList.add('hidden'), 3000);
         }
