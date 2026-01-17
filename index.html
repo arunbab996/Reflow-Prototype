@@ -3,254 +3,161 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Decision Bottleneck Detector (v0)</title>
+    <title>Reflow - Decision Bottleneck Detector</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
 
-    <div class="container">
-        <header>
-            <h1>Decision Bottleneck Detector <span class="badge-beta">PROTOTYPE</span></h1>
-            <p class="subtitle">Scanning communication channels for blocked work...</p>
-        </header>
+    <div class="app-container">
 
-        <div class="stats-grid">
-            <div class="card">
-                <h3>Total Blocked</h3>
-                <div class="big-number" id="total-blocked">0</div>
+        <aside class="sidebar">
+            <div class="logo-section">
+                <span class="logo-icon">🔵</span> <h1>Reflow</h1>
             </div>
-            <div class="card">
-                <h3>Avg. Wait Time</h3>
-                <div class="big-number" id="avg-wait">0h</div>
-            </div>
-            <div class="card">
-                <h3>Oldest Bottleneck</h3>
-                <div class="big-number" id="max-wait">0h</div>
-            </div>
-        </div>
 
-        <div class="insight-banner">
-            <strong>⚡ Insight:</strong> <span id="insight-text">Analyzing...</span>
-        </div>
+            <div class="nav-section">
+                <h2>Navigation</h2>
+                <nav>
+                    <ul>
+                        <li>
+                            <a href="#" class="nav-link active">
+                                <span class="nav-icon">📋</span>
+                                Blocker Detector
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link">
+                                <span class="nav-icon">◻️</span>
+                                Dashboard
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link">
+                                <span class="nav-icon">📊</span>
+                                Reports
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#" class="nav-link">
+                                <span class="nav-icon">⚙️</span>
+                                Settings
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
 
-        <div class="table-wrapper">
-            <table>
-                <thead>
-                    <tr>
-                        <th width="45%">Decision Context</th>
-                        <th width="15%">Asked By</th>
-                        <th width="15%">Wait Time</th>
-                        <th width="15%">Replies</th>
-                        <th width="10%">Status</th>
-                    </tr>
-                </thead>
-                <tbody id="decision-table-body">
-                    </tbody>
-            </table>
-        </div>
+            <div class="user-profile-section">
+                <div class="user-avatar">👤</div>
+                <div class="user-info">
+                    <p class="user-name">Jame Smiths</p>
+                    <p class="user-role">User Profile</p>
+                </div>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="main-header">
+                <div class="title-group">
+                    <h1>Decision Bottleneck Detector</h1>
+                    <span class="badge-prototype">PROTOTYPE</span>
+                </div>
+                <p class="subtitle">Scanning communication channels...</p>
+            </header>
+
+            <section class="kpi-cards">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Total Blocked</h3>
+                        <span class="card-icon">ℹ️</span>
+                    </div>
+                    <div class="big-number">3</div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Avg. Wait Time</h3>
+                        <span class="card-icon">🕒</span>
+                    </div>
+                    <div class="big-number">45h</div>
+                </div>
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Oldest Bottleneck</h3>
+                    </div>
+                    <div class="big-number">72h</div>
+                </div>
+            </section>
+
+            <div class="insight-banner">
+                <span class="insight-icon">⚡</span>
+                <p><strong>Insight:</strong> 🚨 Attention: 2 critical decisions are blocking work for over 48 hours.</p>
+            </div>
+
+            <section class="decisions-table-section">
+                <div class="table-header">
+                    <h2>Decisions</h2>
+                    <input type="text" class="search-bar" placeholder="Search">
+                </div>
+
+                <div class="table-wrapper">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th class="text-left">Decision</th>
+                                <th class="text-center">Status ↓</th>
+                                <th class="text-center">Status</th>
+                                <th class="text-right">Oldest</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Reflow Management</td>
+                                <td class="text-center">3</td>
+                                <td class="text-center"><span class="status-text">45h ntara</span></td>
+                                <td class="text-right">72h</td>
+                            </tr>
+                            <tr>
+                                <td>Reflow Bvitcheniak management</td>
+                                <td class="text-center"><span class="badge badge-red">Pot Blocked</span></td>
+                                <td class="text-center"><span class="badge badge-yellow">No-Blocked</span></td>
+                                <td class="text-right">72 hoi</td>
+                            </tr>
+                            <tr>
+                                <td>Reflow Bvitcheniak management</td>
+                                <td class="text-center"><span class="badge badge-red">Pot Blocked</span></td>
+                                <td class="text-center"><span class="badge badge-yellow">No-Blocked</span></td>
+                                <td class="text-right">24 min</td>
+                            </tr>
+                            <tr>
+                                <td>Reflow Bvitcheniak management</td>
+                                <td class="text-center"><span class="badge badge-red">Fot Blocked</span></td>
+                                <td class="text-center"><span class="badge badge-yellow">No-Blocked</span></td>
+                                <td class="text-right">24 min</td>
+                            </tr>
+                            <tr>
+                                <td>Reflow Bvitcheniak management</td>
+                                <td class="text-center"><span class="badge badge-red">Pot Blocked</span></td>
+                                <td class="text-center"><span class="badge badge-yellow">No-Blocked</span></td>
+                                <td class="text-right">1 mont</td>
+                            </tr>
+                            <tr>
+                                <td>Reflow Crruztomer service</td>
+                                <td class="text-center"><span class="badge badge-gray">Active</span></td>
+                                <td class="text-center"><span class="badge badge-gray">Imsant</span></td>
+                                <td class="text-right">3 days</td>
+                            </tr>
+                             <tr>
+                                <td>Reflow Decklops</td>
+                                <td class="text-center"><span class="badge badge-gray">Active</span></td>
+                                <td class="text-center"><span class="badge badge-gray">Modont</span></td>
+                                <td class="text-right">1 halo</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
     </div>
 
-    <script>
-        // --- 1. MOCK DATA GENERATOR ---
-        // We use dynamic timestamps (Date.now()) so the prototype works whenever you run it.
-        const HOURS = 60 * 60 * 1000;
-        const now = Date.now();
-
-        const rawMessages = [
-            {
-                id: 1,
-                author: "Sarah (Product)",
-                text: "Here is the final design for the login flow. Do we go ahead with this version?",
-                timestamp: now - (50 * HOURS), // 50 hours ago (Critical)
-                replies: [
-                    { text: "Looks good to me but unsure about legal.", timestamp: now - (49 * HOURS) },
-                    { text: "I'll check with legal.", timestamp: now - (48 * HOURS) }
-                ]
-            },
-            {
-                id: 2,
-                author: "Mike (Eng)",
-                text: "Should we swap the database provider before the migration?",
-                timestamp: now - (14 * HOURS), // 14 hours ago (Stalled - no replies)
-                replies: []
-            },
-            {
-                id: 3,
-                author: "Jessica (Design)",
-                text: "Can we approve the budget for the new illustration pack?",
-                timestamp: now - (5 * HOURS), // 5 hours ago (Just a normal pending request, not stalled yet)
-                replies: [
-                    { text: "How much is it?", timestamp: now - (4 * HOURS) }
-                ]
-            },
-            {
-                id: 4,
-                author: "Tom (Marketing)",
-                text: "Hey team, looking at the Q3 ad spend. Approve?",
-                timestamp: now - (72 * HOURS), // 72 hours ago (Critical)
-                replies: [
-                    { text: "Let's discuss in sync.", timestamp: now - (70 * HOURS) }
-                ]
-            },
-            {
-                id: 5,
-                author: "Dave (Ops)",
-                text: "Lunch order is here!",
-                timestamp: now - (2 * HOURS),
-                replies: [] // Not a decision request (ignored)
-            },
-            {
-                id: 6,
-                author: "Sarah (Product)",
-                text: "Should we delay the release?",
-                timestamp: now - (30 * HOURS), // 30 hours ago, Unresolved
-                replies: [
-                    { text: "Maybe?", timestamp: now - (29 * HOURS) }
-                ]
-            },
-            {
-                id: 7,
-                author: "CTO",
-                text: "Do we go ahead with the AWS contract?",
-                timestamp: now - (100 * HOURS),
-                replies: [
-                    { text: "Yes, approved.", timestamp: now - (99 * HOURS) } // Resolved (ignored)
-                ]
-            }
-        ];
-
-        // --- 2. LOGIC DEFINITIONS ---
-
-        function isDecisionRequest(text) {
-            const lower = text.toLowerCase();
-            const keywords = ["should we", "can we", "approve", "do we go ahead"];
-            // Check for keywords OR question mark at the end
-            return keywords.some(k => lower.includes(k)) || text.trim().endsWith("?");
-        }
-
-        function isResolved(replies) {
-            const resolutionWords = ["yes", "approved", "go ahead", "let’s do it", "let's do it"];
-            return replies.some(reply => 
-                resolutionWords.some(word => reply.text.toLowerCase().includes(word))
-            );
-        }
-
-        function getDecisionStatus(diffHours, replyCount, isResolved) {
-            if (isResolved) return "Resolved";
-            
-            // Critical: Unresolved for 48+ hours (regardless of reply count)
-            if (diffHours >= 48) return "Critical";
-            
-            // Stalled: No replies within 12 hours
-            if (replyCount === 0 && diffHours >= 12) return "Stalled";
-            
-            // Unresolved: Replies exist but no decision, OR it's new
-            // Note: If it's < 12 hours and has no replies, it's just "Pending" (we treat as Unresolved for list)
-            return "Unresolved";
-        }
-
-        // --- 3. ANALYTICS ENGINE ---
-
-        function analyzeData() {
-            const bottlenecks = [];
-            
-            rawMessages.forEach(msg => {
-                // 1. Filter: Is it a decision request?
-                if (!isDecisionRequest(msg.text)) return;
-
-                // 2. Filter: Is it already resolved?
-                if (isResolved(msg.replies)) return;
-
-                // 3. Compute Metrics
-                const waitTimeMs = now - msg.timestamp;
-                const waitTimeHours = Math.floor(waitTimeMs / (1000 * 60 * 60));
-                
-                // 4. Classify
-                const status = getDecisionStatus(waitTimeHours, msg.replies.length, false);
-
-                // We only care about blocking items, so we might exclude "fresh" items 
-                // but for this prototype, we show everything not resolved.
-                bottlenecks.push({
-                    ...msg,
-                    waitHours: waitTimeHours,
-                    status: status
-                });
-            });
-
-            // Sort by severity (Critical first), then wait time
-            bottlenecks.sort((a, b) => b.waitHours - a.waitHours);
-
-            return bottlenecks;
-        }
-
-        // --- 4. RENDER UI ---
-
-        function renderDashboard() {
-            const data = analyzeData();
-            const tbody = document.getElementById('decision-table-body');
-            
-            // Calculate Aggregates
-            const totalBlocked = data.length;
-            const avgWait = totalBlocked > 0 
-                ? Math.floor(data.reduce((acc, curr) => acc + curr.waitHours, 0) / totalBlocked) 
-                : 0;
-            const maxWait = totalBlocked > 0 ? Math.max(...data.map(d => d.waitHours)) : 0;
-
-            // Update KPI Cards
-            document.getElementById('total-blocked').innerText = totalBlocked;
-            document.getElementById('avg-wait').innerText = avgWait + "h";
-            document.getElementById('max-wait').innerText = maxWait + "h";
-
-            // Update Table
-            let html = "";
-            data.forEach(item => {
-                // Determine badge class
-                let badgeClass = "badge-gray";
-                if (item.status === "Critical") badgeClass = "badge-red";
-                if (item.status === "Stalled") badgeClass = "badge-yellow";
-
-                html += `
-                    <tr>
-                        <td class="msg-text">
-                            "${item.text}"
-                            <div class="msg-sub">ID: #${item.id} • ${new Date(item.timestamp).toLocaleDateString()}</div>
-                        </td>
-                        <td class="author-cell">
-                            <div class="avatar">${item.author.charAt(0)}</div>
-                            ${item.author}
-                        </td>
-                        <td><strong>${item.waitHours} hrs</strong></td>
-                        <td>${item.replies.length}</td>
-                        <td><span class="badge ${badgeClass}">${item.status}</span></td>
-                    </tr>
-                `;
-            });
-            tbody.innerHTML = html;
-
-            // Generate Insight
-            generateInsight(data);
-        }
-
-        function generateInsight(data) {
-            const criticalCount = data.filter(d => d.status === "Critical").length;
-            const stalledCount = data.filter(d => d.status === "Stalled").length;
-            
-            let insight = "No bottlenecks detected. Good job!";
-            
-            if (criticalCount > 0) {
-                insight = `🚨 Attention: ${criticalCount} critical decisions are blocking work for over 48 hours.`;
-            } else if (stalledCount > 0) {
-                insight = `⚠️ Warning: ${stalledCount} requests have stalled with zero replies in the last 12 hours.`;
-            } else if (data.length > 0) {
-                insight = `ℹ️ Work is moving, but ${data.length} decisions are currently pending.`;
-            }
-            
-            document.getElementById('insight-text').innerText = insight;
-        }
-
-        // Run on load
-        renderDashboard();
-
-    </script>
 </body>
 </html>
