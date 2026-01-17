@@ -11,22 +11,36 @@
     <div class="app-container">
         <aside class="sidebar">
             <div class="logo-section">
-                <img src="reflow.avif" alt="Reflow Logo" class="logo-img">
-                <h1>Reflow</h1>
+                <a href="#" class="logo-link" onclick="location.reload()">
+                    <img src="reflow.avif" alt="Reflow Logo" class="logo-img">
+                    <h1>Reflow</h1>
+                </a>
             </div>
             <div class="nav-section">
                 <h2>Navigation</h2>
                 <nav>
                     <ul>
-                        <li><a href="#" class="nav-link active"><span class="nav-icon">📋</span> Blocker Detector</a></li>
-                        <li><a href="#" class="nav-link"><span class="nav-icon">◻️</span> Dashboard</a></li>
-                        <li><a href="#" class="nav-link"><span class="nav-icon">📊</span> Reports</a></li>
-                        <li><a href="#" class="nav-link"><span class="nav-icon">⚙️</span> Settings</a></li>
+                        <li><a href="#" class="nav-link active">
+                            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>
+                            Blocker Detector
+                        </a></li>
+                        <li><a href="#" class="nav-link">
+                            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7"></rect><rect x="14" y="3" width="7" height="7"></rect><rect x="14" y="14" width="7" height="7"></rect><rect x="3" y="14" width="7" height="7"></rect></svg>
+                            Dashboard
+                        </a></li>
+                        <li><a href="#" class="nav-link">
+                            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                            Reports
+                        </a></li>
+                        <li><a href="#" class="nav-link">
+                            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1Z"></path></svg>
+                            Settings
+                        </a></li>
                     </ul>
                 </nav>
             </div>
             <div class="user-profile-section">
-                <div class="user-avatar">JS</div>
+                <img src="https://i.pravatar.cc/150?u=james" alt="User" class="user-avatar">
                 <div class="user-info">
                     <p class="user-name">James Smith</p>
                     <p class="user-role">Product Lead</p>
@@ -175,7 +189,6 @@
                 const waitTimeHours = Math.floor(waitTimeMs / (1000 * 60 * 60));
                 const status = getDecisionStatus(waitTimeHours, msg.replies.length);
                 
-                // Calculate Urgency % (Max 48 hours)
                 let urgencyPct = (waitTimeHours / 48) * 100;
                 if(urgencyPct > 100) urgencyPct = 100;
 
@@ -187,7 +200,6 @@
                 });
             });
 
-            // Sort: Critical first
             allData.sort((a, b) => b.waitHours - a.waitHours);
             
             updateKPIs();
@@ -197,31 +209,22 @@
         // --- RENDER ---
         function setFilter(filterType) {
             currentFilter = filterType;
-            
-            // Update Tab UI
             document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
             event.target.classList.add('active');
-            
             renderTable();
         }
 
         function renderTable() {
-            // 1. Filter Logic
             const term = searchInput.value.toLowerCase();
             let displayData = allData.filter(item => {
-                // Text Search
                 const matchesSearch = item.text.toLowerCase().includes(term) || item.author.name.toLowerCase().includes(term);
-                
-                // Tab Filter
                 let matchesTab = true;
                 if(currentFilter === 'critical') matchesTab = item.status === 'Critical';
                 if(currentFilter === 'stalled') matchesTab = item.status === 'Stalled';
-                if(currentFilter === 'me') matchesTab = item.author.name === 'James Smith'; // Mock "Me"
-                
+                if(currentFilter === 'me') matchesTab = item.author.name === 'James Smith';
                 return matchesSearch && matchesTab;
             });
 
-            // 2. HTML Generation
             let html = "";
             if(displayData.length === 0) {
                 html = `<tr><td colspan="6" class="empty-state">No decisions found matching filters.</td></tr>`;
@@ -246,7 +249,7 @@
                             </td>
                             <td>
                                 <div class="author-cell">
-                                    <div class="avatar-small">${item.author.avatar}</div>
+                                    <img src="${item.author.avatar}" class="avatar-small">
                                     <div class="author-meta">
                                         <span>${item.author.name}</span>
                                         <span class="author-role">${item.author.role}</span>
@@ -293,37 +296,63 @@
         // --- INTERACTION ---
         searchInput.addEventListener('keyup', renderTable);
 
-        // Details Modal
+        // SLACK VIEW MODAL
         function openDetailModal(id) {
             const item = allData.find(d => d.id === id);
             if(!item) return;
 
             const body = document.getElementById('modalBody');
-            let repliesHtml = item.replies.map(r => `
-                <div class="thread-reply">
-                    <div class="reply-header">
-                        <strong>${r.author}</strong> <span class="time-ago">replied earlier</span>
+            
+            // Function to generate fake time for visuals
+            const getTime = (hAgo) => {
+                const date = new Date(Date.now() - hAgo * 60 * 60 * 1000);
+                return date.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+            };
+
+            // Build Main Message
+            let mainMsgHtml = `
+                <div class="slack-msg">
+                    <img src="${item.author.avatar}" class="slack-avatar">
+                    <div class="slack-content">
+                        <div class="slack-meta">
+                            <span class="slack-name">${item.author.name}</span>
+                            <span class="slack-time">${getTime(item.waitHours)}</span>
+                        </div>
+                        <div class="slack-text">${item.text}</div>
                     </div>
-                    ${r.text}
+                </div>
+            `;
+
+            // Build Replies
+            let repliesHtml = item.replies.map(r => `
+                <div class="slack-msg">
+                    <img src="${r.avatar}" class="slack-avatar">
+                    <div class="slack-content">
+                        <div class="slack-meta">
+                            <span class="slack-name">${r.author}</span>
+                            <span class="slack-time">today at ${getTime(1)}</span>
+                        </div>
+                        <div class="slack-text">${r.text}</div>
+                    </div>
                 </div>
             `).join('');
 
-            if(item.replies.length === 0) repliesHtml = `<div class="no-replies">No replies yet. This thread is stalled.</div>`;
+            if(item.replies.length === 0) {
+                repliesHtml = `<div class="no-replies">No replies yet.</div>`;
+            }
 
             body.innerHTML = `
-                <div class="thread-main">
-                    <div class="thread-meta">${item.author.name} asked in <span class="channel-tag">${item.channel}</span></div>
-                    <div class="thread-question">"${item.text}"</div>
-                </div>
-                <div class="thread-list">
-                    <h4>Thread History</h4>
+                <div class="slack-thread">
+                    ${mainMsgHtml}
+                    <div class="slack-divider">
+                        <span>${item.replies.length} replies</span>
+                    </div>
                     ${repliesHtml}
                 </div>
             `;
             document.getElementById('detailModal').classList.remove('hidden');
         }
 
-        // Nudge Modal
         function openNudgeModal(name) {
             document.getElementById('nudgeTargetName').innerText = name;
             document.getElementById('nudgeModal').classList.remove('hidden');
