@@ -12,9 +12,7 @@
 
         <aside class="sidebar">
             <div class="logo-section">
-                <svg class="brand-logo" width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path fill-rule="evenodd" clip-rule="evenodd" d="M6 16C6 10.4772 10.4772 6 16 6H26V12H16C13.7909 12 12 13.7909 12 16C12 18.2091 13.7909 20 16 20H26V26H16C10.4772 26 6 21.5228 6 16Z" fill="#0052cc"/>
-                </svg>
+                <img src="reflow.avif" alt="Reflow Logo" class="logo-img">
                 <h1>Reflow</h1>
             </div>
 
@@ -110,10 +108,10 @@
                         <thead>
                             <tr>
                                 <th width="45%">Decision Context</th>
-                                <th width="15%">Asked By</th>
-                                <th width="15%">Replies</th>
-                                <th width="15%">Wait Time</th>
-                                <th width="10%">Status</th>
+                                <th width="20%">Asked By</th>
+                                <th width="10%">Replies</th>
+                                <th width="10%">Wait Time</th>
+                                <th width="15%">Status</th>
                             </tr>
                         </thead>
                         <tbody id="decision-table-body">
@@ -124,75 +122,10 @@
         </main>
     </div>
 
+    <script src="data.js"></script>
+
     <script>
-        // --- 1. MOCK DATA (REAL MESSAGES FROM PROMPT 1) ---
-        const HOURS = 60 * 60 * 1000;
-        const now = Date.now();
-
-        const rawMessages = [
-            {
-                id: 1,
-                author: "Sarah (Product)",
-                text: "Here is the final design for the login flow. Do we go ahead with this version?",
-                timestamp: now - (50 * HOURS), 
-                replies: [
-                    { text: "Looks good to me but unsure about legal.", timestamp: now - (49 * HOURS) },
-                    { text: "I'll check with legal.", timestamp: now - (48 * HOURS) }
-                ]
-            },
-            {
-                id: 2,
-                author: "Mike (Eng)",
-                text: "Should we swap the database provider before the migration?",
-                timestamp: now - (14 * HOURS), 
-                replies: []
-            },
-            {
-                id: 3,
-                author: "Jessica (Design)",
-                text: "Can we approve the budget for the new illustration pack?",
-                timestamp: now - (5 * HOURS),
-                replies: [
-                    { text: "How much is it?", timestamp: now - (4 * HOURS) }
-                ]
-            },
-            {
-                id: 4,
-                author: "Tom (Marketing)",
-                text: "Hey team, looking at the Q3 ad spend. Approve?",
-                timestamp: now - (72 * HOURS), 
-                replies: [
-                    { text: "Let's discuss in sync.", timestamp: now - (70 * HOURS) }
-                ]
-            },
-            {
-                id: 5,
-                author: "Dave (Ops)",
-                text: "Lunch order is here!",
-                timestamp: now - (2 * HOURS),
-                replies: [] 
-            },
-            {
-                id: 6,
-                author: "Sarah (Product)",
-                text: "Should we delay the release?",
-                timestamp: now - (30 * HOURS),
-                replies: [
-                    { text: "Maybe?", timestamp: now - (29 * HOURS) }
-                ]
-            },
-            {
-                id: 7,
-                author: "CTO",
-                text: "Do we go ahead with the AWS contract?",
-                timestamp: now - (100 * HOURS),
-                replies: [
-                    { text: "Yes, approved.", timestamp: now - (99 * HOURS) }
-                ]
-            }
-        ];
-
-        // --- 2. LOGIC HELPERS ---
+        // --- LOGIC HELPERS ---
 
         function isDecisionRequest(text) {
             const lower = text.toLowerCase();
@@ -213,14 +146,16 @@
             return "Unresolved";
         }
 
-        // --- 3. ANALYTICS & RENDER ---
+        // --- RENDER DASHBOARD ---
 
         function renderDashboard() {
+            // NOTE: 'slackData' comes from data.js
             const tbody = document.getElementById('decision-table-body');
             const bottlenecks = [];
+            const now = Date.now();
 
             // Process Data
-            rawMessages.forEach(msg => {
+            slackData.forEach(msg => {
                 if (!isDecisionRequest(msg.text)) return;
                 if (isResolved(msg.replies)) return;
 
@@ -255,23 +190,29 @@
             // Render Table Rows
             let html = "";
             bottlenecks.forEach(item => {
-                let badgeClass = "badge-gray";
-                if (item.status === "Critical") badgeClass = "badge-red";
-                if (item.status === "Stalled") badgeClass = "badge-yellow";
+                let badgeClass = "badge-unresolved";
+                if (item.status === "Critical") badgeClass = "badge-critical";
+                if (item.status === "Stalled") badgeClass = "badge-stalled";
 
                 html += `
                     <tr>
                         <td>
                             <div class="msg-text">${item.text}</div>
-                            <div class="msg-sub">ID: #${item.id} • ${new Date(item.timestamp).toLocaleDateString()}</div>
+                            <div class="msg-sub">
+                                <span class="channel-tag">${item.channel}</span> 
+                                <span>#${item.id}</span>
+                            </div>
                         </td>
                         <td>
                             <div class="author-cell">
-                                <div class="avatar-small">${item.author.charAt(0)}</div>
-                                ${item.author}
+                                <div class="avatar-small">${item.author.avatar}</div>
+                                <div class="author-meta">
+                                    <span>${item.author.name}</span>
+                                    <span class="author-role">${item.author.role}</span>
+                                </div>
                             </div>
                         </td>
-                         <td>${item.replies.length}</td>
+                        <td class="text-center">${item.replies.length}</td>
                         <td class="font-bold">${item.waitHours}h</td>
                         <td><span class="badge ${badgeClass}">${item.status}</span></td>
                     </tr>
