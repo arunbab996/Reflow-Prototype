@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Decision Bottleneck Detector</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Decision Bottleneck Detector</h1>
+      <p class="subtitle">
+        Identify where work is blocked because decisions haven’t been made.
+      </p>
+    </header>
+
+    <!-- Summary Metrics -->
+    <section class="summary">
+      <div class="metric">
+        <div class="metric-value" id="totalDecisions">0</div>
+        <div class="metric-label">Decisions Waiting</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value" id="avgWait">0h</div>
+        <div class="metric-label">Avg Wait Time</div>
+      </div>
+      <div class="metric">
+        <div class="metric-value" id="oldestWait">0h</div>
+        <div class="metric-label">Oldest Decision</div>
+      </div>
+    </section>
+
+    <!-- Decision Table -->
+    <section>
+      <table>
+        <thead>
+          <tr>
+            <th>Decision</th>
+            <th>Asked By</th>
+            <th>Waiting</th>
+            <th>Status</th>
+          </tr>
+        </thead>
+        <tbody id="decisionTable">
+          <!-- Rows injected by JS -->
+        </tbody>
+      </table>
+    </section>
+
+    <!-- Insight -->
+    <section class="insight">
+      <strong>Insight:</strong>
+      <span id="insightText">
+        Decisions with unclear ownership are the biggest source of delay.
+      </span>
+    </section>
+  </div>
+
+  <script>
+    /***********************
+     * Mocked Slack Data
+     ***********************/
+    const messages = [
+      {
+        id: "msg_1",
+        text: "Should we ship the new pricing page today?",
+        author: "PM",
+        timestamp: "2026-01-14T10:00:00",
+        replies: []
+      },
+      {
+        id: "msg_2",
+        text: "Can we approve API access for the partner?",
+        author: "Engineer",
+        timestamp: "2026-01-13T15:30:00",
+        replies: [
+          {
+            author: "Founder",
+            text: "Need to think",
+            timestamp: "2026-01-13T18:00:00"
+          }
+        ]
+      },
+      {
+        id: "msg_3",
+        text: "Do we go with vendor A or vendor B?",
+        author: "Ops",
+        timestamp: "2026-01-12T09:00:00",
+        replies: [
+          {
+            author: "Founder",
+            text: "Leaning A",
+            timestamp: "2026-01-12T12:00:00"
+          },
+          {
+            author: "PM",
+            text: "Any final call?",
+            timestamp: "2026-01-13T09:00:00"
+          }
+        ]
+      }
+    ];
+
+    /***********************
+     * Helper Functions
+     ***********************/
+    const now = new Date("2026-01-15T10:00:00");
+
+    function hoursBetween(start, end) {
+      return Math.round((end - start) / (1000 * 60 * 60));
+    }
+
+    function isDecisionRequest(text) {
+      const keywords = ["should we", "can we", "approve", "do we"];
+      return text.includes("?") || keywords.some(k => text.toLowerCase().includes(k));
+    }
+
+    function isResolved(replies) {
+      return replies.some(r =>
+        ["yes", "approved", "go ahead", "let's do it"].some(word =>
+          r.text.toLowerCase().includes(word)
+        )
+      );
+    }
+
+    function classifyDecision(message) {
+      const askedAt = new Date(message.timestamp);
+      const waitHours = hoursBetween(askedAt, now);
+
+      if (message.replies.length === 0 && waitHours >= 12) {
+        return { status: "Stalled", waitHours };
+      }
+
+      if (!isResolved(message.replies)) {
+        if (waitHours >= 48) {
+          return { status: "Critical", waitHours };
+        }
+        return { status: "Unresolved", waitHours };
+      }
+
+      return null;
+    }
+
+    /***********************
+     * Main Logic
+     ***********************/
+    const decisions = messages
+      .filter(m => isDecisionRequest(m.text))
+      .map(m => {
+        const result = classifyDecision(m);
+        if (!result) return null;
+        return {
+          text: m.text,
+          author: m.author,
+          status: result.status,
+          waitHours: result.waitHours
+        };
+      })
+      .filter(Boolean);
+
+    /***********************
+     * Render Summary
+     ***********************/
+    const total = decisions.length;
+    const avgWait =
+      total === 0
+        ? 0
+        : Math.round(decisions.reduce((s, d) => s + d.waitHours, 0) / total);
+    const oldest = total === 0 ? 0 : Math.max(...decisions.map(d => d.waitHours));
+
+    document.getElementById("totalDecisions").innerText = total;
+    document.getElementById("avgWait").innerText = avgWait + "h";
+    document.getElementById("oldestWait").innerText = oldest + "h";
+
+    /***********************
+     * Render Table
+     ***********************/
+    const table = document.getElementById("decisionTable");
+
+    decisions.forEach(d => {
+      const row = document.createElement("tr");
+
+      row.innerHTML = `
+        <td>${d.text}</td>
+        <td>${d.author}</td>
+        <td>${d.waitHours}h</td>
+        <td>
+          <span class="status ${d.status.toLowerCase()}">
+            ${d.status}
+          </span>
+        </td>
+      `;
+
+      table.appendChild(row);
+    });
+  </script>
+</body>
+</html>
