@@ -13,23 +13,14 @@ const slackData = [
         author: {
             name: "Sarah Chen",
             role: "Product Manager",
-            avatar: "https://i.pravatar.cc/150?img=5" // Female
+            avatar: "https://i.pravatar.cc/150?img=5"
         },
-        text: "Here is the final design for the login flow v2. Do we go ahead with this version for the sprint?",
+        text: "Here is the final design. Do we go ahead with this version? @MikeRoss needs to sign off.",
         timestamp: hoursAgo(50), 
         replies: [
-            { 
-                author: "Mike Ross", 
-                avatar: "https://i.pravatar.cc/150?img=11", // Male
-                text: "Looks good to me but unsure about legal compliance on the cookie banner.", 
-                timestamp: hoursAgo(49) 
-            },
-            { 
-                author: "Legal Bot", 
-                avatar: "https://ui-avatars.com/api/?name=Legal+Bot&background=random", 
-                text: "I'll check with the legal team.", 
-                timestamp: hoursAgo(48) 
-            }
+            { author: "Mike Ross", avatar: "https://i.pravatar.cc/150?img=11", text: "Unsure about the legal compliance.", timestamp: hoursAgo(49) },
+            { author: "Legal Bot", avatar: "https://ui-avatars.com/api/?name=L+B", text: "Checking...", timestamp: hoursAgo(48) },
+            { author: "Sarah Chen", avatar: "https://i.pravatar.cc/150?img=5", text: "Any updates?", timestamp: hoursAgo(20) }
         ]
     },
     {
@@ -50,17 +41,12 @@ const slackData = [
         author: {
             name: "Jessica Wu",
             role: "Head of Design",
-            avatar: "https://i.pravatar.cc/150?img=9" // Female
+            avatar: "https://i.pravatar.cc/150?img=9"
         },
-        text: "Can we approve the budget for the new 3D illustration pack ($500)?",
+        text: "Can we approve the budget for the new 3D illustration pack ($500)? It's blocking the landing page.",
         timestamp: hoursAgo(5), 
         replies: [
-            { 
-                author: "Tom Haverford", 
-                avatar: "https://i.pravatar.cc/150?img=13", // Male
-                text: "Is this a one-time fee or subscription?", 
-                timestamp: hoursAgo(4) 
-            }
+            { author: "Tom Haverford", avatar: "https://i.pravatar.cc/150?img=13", text: "Is this a one-time fee?", timestamp: hoursAgo(4) }
         ]
     },
     {
@@ -74,12 +60,9 @@ const slackData = [
         text: "Hey team, looking at the Q3 ad spend allocation for LinkedIn. Approve?",
         timestamp: hoursAgo(72), 
         replies: [
-            { 
-                author: "Sarah Chen", 
-                avatar: "https://i.pravatar.cc/150?img=5",
-                text: "Let's discuss in the sync later.", 
-                timestamp: hoursAgo(70) 
-            }
+            { author: "Sarah Chen", avatar: "https://i.pravatar.cc/150?img=5", text: "Let's discuss.", timestamp: hoursAgo(70) },
+            { author: "Mike Ross", avatar: "https://i.pravatar.cc/150?img=11", text: "I think we need more data.", timestamp: hoursAgo(65) },
+            { author: "Jessica Wu", avatar: "https://i.pravatar.cc/150?img=9", text: "Agreed.", timestamp: hoursAgo(60) }
         ]
     },
     {
@@ -93,12 +76,7 @@ const slackData = [
         text: "Should we delay the feature release until the analytics bug is patched?",
         timestamp: hoursAgo(30), 
         replies: [
-            { 
-                author: "Mike Ross", 
-                avatar: "https://i.pravatar.cc/150?img=11",
-                text: "It's a small bug, maybe we hotfix?", 
-                timestamp: hoursAgo(29) 
-            }
+            { author: "Mike Ross", avatar: "https://i.pravatar.cc/150?img=11", text: "Maybe?", timestamp: hoursAgo(29) }
         ]
     }
 ];
