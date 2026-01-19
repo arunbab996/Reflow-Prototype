@@ -37,7 +37,7 @@
                             Reports
                         </a></li>
                         <li><a href="#" class="nav-link">
-                            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2-2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1Z"></path></svg>
+                            <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"></circle><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1Z"></path></svg>
                             Settings
                         </a></li>
                     </ul>
@@ -103,9 +103,10 @@
                     <table>
                         <thead>
                             <tr>
-                                <th width="30%" onclick="sortData('text')"><div class="th-content">Decision Context <svg class="sort-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7 15l5 5 5-5"/><path d="M7 9l5-5 5 5"/></svg></div></th>
-                                <th width="15%" onclick="sortData('inferredOwner')"><div class="th-content">Owner (AI) <svg class="sort-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7 15l5 5 5-5"/><path d="M7 9l5-5 5 5"/></svg></div></th>
-                                <th width="25%"><div class="th-content">Diagnosis & Next Step</div></th>
+                                <th width="25%" onclick="sortData('text')"><div class="th-content">Decision Context <svg class="sort-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7 15l5 5 5-5"/><path d="M7 9l5-5 5 5"/></svg></div></th>
+                                <th width="15%" onclick="sortData('author')"><div class="th-content">Asked By <svg class="sort-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7 15l5 5 5-5"/><path d="M7 9l5-5 5 5"/></svg></div></th>
+                                <th width="10%" onclick="sortData('inferredOwner')"><div class="th-content">Owner (AI) <svg class="sort-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7 15l5 5 5-5"/><path d="M7 9l5-5 5 5"/></svg></div></th>
+                                <th width="20%"><div class="th-content">Diagnosis & Next Step</div></th>
                                 <th width="10%" onclick="sortData('waitHours')"><div class="th-content">Urgency <svg class="sort-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7 15l5 5 5-5"/><path d="M7 9l5-5 5 5"/></svg></div></th>
                                 <th width="10%" onclick="sortData('status')"><div class="th-content">Status <svg class="sort-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"><path d="M7 15l5 5 5-5"/><path d="M7 9l5-5 5 5"/></svg></div></th>
                                 <th width="10%">Actions</th>
@@ -153,63 +154,31 @@
 
     <script src="data.js"></script>
     <script>
-        // --- CONFIG ---
         const tbody = document.getElementById('decision-table-body');
         const searchInput = document.getElementById('searchInput');
         let allData = [];
         let currentFilter = 'all';
         let currentSort = { field: 'waitHours', dir: 'desc' };
 
-        // --- 1. INTELLIGENCE LAYER: OWNER INFERENCE ---
         function inferOwner(msg) {
-            // Rule 1: Explicit Mention
             const mentionMatch = msg.text.match(/@([a-zA-Z]+)/);
             if(mentionMatch) return { name: mentionMatch[1], type: 'mentioned' };
-            
-            // Rule 2: Channel Mapping
-            const channelMap = {
-                "#eng-backend": "Tech Lead",
-                "#design-system": "Head of Design",
-                "#marketing-q3": "CMO",
-                "#proj-login-redesign": "Product Lead",
-                "#product-roadmap": "CPO"
-            };
+            const channelMap = { "#eng-backend": "Tech Lead", "#design-system": "Head of Design", "#marketing-q3": "CMO", "#proj-login-redesign": "Product Lead", "#product-roadmap": "CPO" };
             if(channelMap[msg.channel]) return { name: channelMap[msg.channel], type: 'role' };
-
-            // Default
             return { name: "Unclear", type: 'unknown' };
         }
 
-        // --- 2. INTELLIGENCE LAYER: DIAGNOSIS ---
         function inferAnalysis(msg, waitHours) {
             const text = msg.text.toLowerCase();
             const repliers = new Set(msg.replies.map(r => r.author));
-            
-            // Priority 1: External Dependencies
-            if(text.includes('legal') || text.includes('compliance') || text.includes('client')) {
-                return { reason: "Waiting on External Input", action: "Chase external POC", icon: "⚠️" };
-            }
-            // Priority 2: Budget/Finance
-            if(text.includes('budget') || text.includes('spend') || text.includes('$')) {
-                return { reason: "Budget Approval Needed", action: "Escalate to Finance", icon: "💰" };
-            }
-            // Priority 3: Too Many Cooks (More than 2 unique repliers)
-            if(repliers.size > 2) {
-                return { reason: "Too Many Stakeholders", action: "Move to sync decision", icon: "🗣️" };
-            }
-            // Priority 4: Stalled (0 replies, > 24h)
-            if(msg.replies.length === 0 && waitHours > 24) {
-                return { reason: "No Traction", action: "Assign direct owner", icon: "❄️" };
-            }
-            // Priority 5: Critical Time
-            if(waitHours > 48) {
-                return { reason: "SLA Breached", action: "Escalate to Leadership", icon: "🔥" };
-            }
-            
+            if(text.includes('legal') || text.includes('compliance') || text.includes('client')) return { reason: "Waiting on External Input", action: "Chase external POC", icon: "⚠️" };
+            if(text.includes('budget') || text.includes('spend') || text.includes('$')) return { reason: "Budget Approval Needed", action: "Escalate to Finance", icon: "💰" };
+            if(repliers.size > 2) return { reason: "Too Many Stakeholders", action: "Move to sync decision", icon: "🗣️" };
+            if(msg.replies.length === 0 && waitHours > 24) return { reason: "No Traction", action: "Assign direct owner", icon: "❄️" };
+            if(waitHours > 48) return { reason: "SLA Breached", action: "Escalate to Leadership", icon: "🔥" };
             return { reason: "Pending Review", action: "Nudge thread", icon: "⏳" };
         }
 
-        // --- DATA PROCESSING ---
         function getResolvedIds() { return JSON.parse(localStorage.getItem('resolvedIds') || '[]'); }
         function loadDataWithDelay() { renderSkeleton(); setTimeout(() => { analyzeData(); }, 1200); }
 
@@ -217,41 +186,26 @@
             const now = Date.now();
             const resolvedIds = getResolvedIds();
             allData = [];
-
             slackData.forEach(msg => {
                 if(resolvedIds.includes(msg.id)) return;
                 const waitTimeMs = now - msg.timestamp;
                 const waitTimeHours = Math.floor(waitTimeMs / (1000 * 60 * 60));
-                
                 let status = "Unresolved";
                 if (waitTimeHours >= 48) status = "Critical";
                 else if (msg.replies.length === 0 && waitTimeHours >= 12) status = "Stalled";
-                
                 let urgencyPct = (waitTimeHours / 48) * 100;
                 if(urgencyPct > 100) urgencyPct = 100;
-
-                // Run Intelligence
                 const ownerInfo = inferOwner(msg);
                 const analysis = inferAnalysis(msg, waitTimeHours);
-
-                allData.push({ 
-                    ...msg, 
-                    waitHours: waitTimeHours, 
-                    status: status, 
-                    urgencyPct: urgencyPct,
-                    inferredOwner: ownerInfo,
-                    analysis: analysis
-                });
+                allData.push({ ...msg, waitHours: waitTimeHours, status: status, urgencyPct: urgencyPct, inferredOwner: ownerInfo, analysis: analysis });
             });
-
             doSort(); updateKPIs(); renderTable();
         }
 
-        // --- RENDERERS ---
         function renderTable() {
             const term = searchInput.value.toLowerCase();
             let displayData = allData.filter(item => {
-                const matchesSearch = item.text.toLowerCase().includes(term);
+                const matchesSearch = item.text.toLowerCase().includes(term) || item.author.name.toLowerCase().includes(term);
                 let matchesTab = true;
                 if(currentFilter === 'critical') matchesTab = item.status === 'Critical';
                 if(currentFilter === 'stalled') matchesTab = item.status === 'Stalled';
@@ -261,22 +215,29 @@
 
             let html = "";
             if(displayData.length === 0) {
-                html = `<tr><td colspan="6" class="empty-state">No active decisions found.</td></tr>`;
+                html = `<tr><td colspan="7" class="empty-state">No active decisions found.</td></tr>`;
             } else {
                 displayData.forEach(item => {
                     let badgeClass = "badge-unresolved";
                     let progressBarClass = "progress-blue";
                     if (item.status === "Critical") { badgeClass = "badge-critical"; progressBarClass = "progress-red"; } 
                     else if (item.status === "Stalled") { badgeClass = "badge-stalled"; progressBarClass = "progress-yellow"; }
-
-                    // Owner Badge Style
                     let ownerBadgeClass = item.inferredOwner.type === 'mentioned' ? 'owner-mention' : 'owner-role';
 
                     html += `
                         <tr id="row-${item.id}" onclick="openDetailModal('${item.id}')" class="clickable-row">
                             <td>
                                 <div class="msg-text">${item.text}</div>
-                                <div class="msg-sub"><span class="channel-tag">${item.channel}</span> <span style="margin-left:6px; font-size:11px; color:#7A869A">Asked by ${item.author.name}</span></div>
+                                <div class="msg-sub"><span class="channel-tag">${item.channel}</span> <span style="margin-left:6px; font-size:11px; color:#7A869A">#${item.id}</span></div>
+                            </td>
+                            <td>
+                                <div class="author-cell">
+                                    <img src="${item.author.avatar}" class="avatar-small">
+                                    <div class="author-meta">
+                                        <span class="user-name">${item.author.name}</span>
+                                        <span class="author-role">${item.author.role}</span>
+                                    </div>
+                                </div>
                             </td>
                             <td>
                                 <span class="owner-badge ${ownerBadgeClass}">${item.inferredOwner.name}</span>
@@ -318,17 +279,17 @@
             for(let i=0; i<5; i++) {
                 html += `<tr>
                     <td><div class="skeleton-line" style="width:80%"></div><div class="skeleton-line" style="width:40%"></div></td>
-                    <td><div class="skeleton-line" style="width:60%"></div></td>
+                    <td><div style="display:flex; gap:10px; align-items:center"><div class="skeleton-circle" style="width:28px; height:28px"></div><div class="skeleton-line" style="width: 80px"></div></div></td>
+                    <td><div class="skeleton-line" style="width:60px; height:20px; border-radius:4px"></div></td>
                     <td><div class="skeleton-line" style="width:90%"></div><div class="skeleton-line" style="width:50%"></div></td>
                     <td><div class="skeleton-line" style="width:80%"></div></td>
-                    <td><div class="skeleton-line" style="width:60px"></div></td>
+                    <td><div class="skeleton-line" style="width:60px; height:20px; border-radius:10px"></div></td>
                     <td><div class="skeleton-circle"></div></td>
                 </tr>`;
             }
             tbody.innerHTML = html;
         }
 
-        // --- SORTING & FILTERING ---
         function doSort() {
             allData.sort((a, b) => {
                 let valA = a[currentSort.field];
@@ -358,13 +319,9 @@
             document.getElementById('total-blocked').innerText = total;
             document.getElementById('avg-wait').innerText = avg + "h";
             document.getElementById('max-wait').innerText = (total > 0 ? Math.max(...allData.map(d => d.waitHours)) : 0) + "h";
-            const insight = critical > 0 
-                ? `🚨 <strong>Action Required:</strong> ${critical} critical decisions blocked > 48h.`
-                : `ℹ️ <strong>Status:</strong> ${total} decisions pending.`;
+            const insight = critical > 0 ? `🚨 <strong>Action Required:</strong> ${critical} critical decisions blocked > 48h.` : `ℹ️ <strong>Status:</strong> ${total} decisions pending.`;
             document.getElementById('insight-text').innerHTML = insight;
         }
-
-        // --- MODALS & ACTIONS ---
         function resolveDecision(id, fromRow) {
             closeModal('detailModal');
             if(fromRow) { const row = document.getElementById(`row-${id}`); if(row) row.classList.add('row-fading-out'); }
@@ -376,54 +333,17 @@
             const item = allData.find(d => d.id === id); if(!item) return;
             const body = document.getElementById('modalBody');
             const getTime = (hAgo) => new Date(Date.now() - hAgo*3600000).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
-            
-            let mainMsgHtml = `
-                <div class="slack-msg">
-                    <img src="${item.author.avatar}" class="slack-avatar">
-                    <div class="slack-content">
-                        <div class="slack-meta">
-                            <span class="slack-name">${item.author.name}</span>
-                            <span class="slack-time">${getTime(item.waitHours)}</span>
-                            <span class="slack-channel-badge">${item.channel}</span>
-                        </div>
-                        <div class="slack-text">${item.text}</div>
-                    </div>
-                </div>`;
-            
-            let repliesHtml = item.replies.map(r => `
-                <div class="slack-msg">
-                    <img src="${r.avatar}" class="slack-avatar">
-                    <div class="slack-content">
-                        <div class="slack-meta"><span class="slack-name">${r.author}</span><span class="slack-time">today at ${getTime(1)}</span></div>
-                        <div class="slack-text">${r.text}</div>
-                    </div>
-                </div>`).join('');
-            
+            let mainMsgHtml = `<div class="slack-msg"><img src="${item.author.avatar}" class="slack-avatar"><div class="slack-content"><div class="slack-meta"><span class="slack-name">${item.author.name}</span><span class="slack-time">${getTime(item.waitHours)}</span><span class="slack-channel-badge">${item.channel}</span></div><div class="slack-text">${item.text}</div></div></div>`;
+            let repliesHtml = item.replies.map(r => `<div class="slack-msg"><img src="${r.avatar}" class="slack-avatar"><div class="slack-content"><div class="slack-meta"><span class="slack-name">${r.author}</span><span class="slack-time">today at ${getTime(1)}</span></div><div class="slack-text">${r.text}</div></div></div>`).join('');
             if(item.replies.length===0) repliesHtml = `<div class="no-replies">No replies yet.</div>`;
             body.innerHTML = `<div class="slack-thread">${mainMsgHtml}<div class="slack-divider"><span>${item.replies.length} replies</span></div>${repliesHtml}</div>`;
-            
-            // Populate Intelligence in Modal Footer? Or just actions?
-            document.getElementById('modalActions').innerHTML = `
-                <div style="display:flex; gap:10px;">
-                    <button class="btn-primary" onclick="triggerToast('Opened in Slack!', false)">
-                         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg>
-                         Open in Slack</button>
-                    <button class="btn-success" style="margin-left:0;" onclick="resolveDecision('${item.id}', false)">
-                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"></polyline></svg>
-                        Mark Resolved</button>
-                </div>`;
+            document.getElementById('modalActions').innerHTML = `<div style="display:flex; gap:10px;"><button class="btn-primary" onclick="triggerToast('Opened in Slack!', false)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"></path><polyline points="15 3 21 3 21 9"></polyline><line x1="10" y1="14" x2="21" y2="3"></line></svg> Open in Slack</button><button class="btn-success" style="margin-left:0;" onclick="resolveDecision('${item.id}', false)"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="16" height="16"><polyline points="20 6 9 17 4 12"></polyline></svg> Mark Resolved</button></div>`;
             document.getElementById('detailModal').classList.remove('hidden');
         }
-
         function openNudgeModal(name) { document.getElementById('nudgeTargetName').innerText = name; document.getElementById('nudgeModal').classList.remove('hidden'); }
         function sendNudge() { const name = document.getElementById('nudgeTargetName').innerText; closeModal('nudgeModal'); triggerToast(`Nudge sent to ${name} via Slack!`, false); }
         function closeModal(id) { document.getElementById(id).classList.add('hidden'); }
-        function triggerToast(msg, isSuccess) {
-            const toast = document.getElementById('toast'); toast.innerText = msg; toast.className = "toast"; 
-            if(isSuccess) toast.classList.add('success'); toast.classList.remove('hidden');
-            setTimeout(() => toast.classList.add('hidden'), 3000);
-        }
-
+        function triggerToast(msg, isSuccess) { const toast = document.getElementById('toast'); toast.innerText = msg; toast.className = "toast"; if(isSuccess) toast.classList.add('success'); toast.classList.remove('hidden'); setTimeout(() => toast.classList.add('hidden'), 3000); }
         searchInput.addEventListener('keyup', renderTable);
         loadDataWithDelay(); 
     </script>
